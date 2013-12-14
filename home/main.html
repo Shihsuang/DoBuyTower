@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Eat or Play</title>
+<style type="text/css"> 
+#frame{position:relative;width:426px;height:640px;margin:10px;background:url(img/frame.jpg) no-repeat;}
+#lock{position:absolute;bottom:290px;width:370px;height:62px;}
+#lock spane{position:absolute;left:210px;width:93px;height:62px;cursor:pointer;background:url(img/eat.jpg) no-repeat;}
+#lock spanp{position:absolute;left:115px;width:93px;height:62px;cursor:pointer;background:url(img/play.jpg) no-repeat;}
+</style>
+<script type="text/javascript"> 
+window.onload = function ()
+{
+	var frame = document.getElementById("frame");
+	var eLock = document.getElementById("lock");
+	var eBtn = eLock.getElementsByTagName("spane")[0];
+	var pBtn = eLock.getElementsByTagName("spanp")[0];
+	var disX = 0;
+	var maxL = eLock.clientWidth-eBtn.offsetWidth+35;
+	var oBg = document.createElement("img");
+	oBg.src = "img/2.jpg";
+	eBtn.onmousedown = function(e){
+		var e = e || window.event;
+		disX = e.clientX - this.offsetLeft;
+		
+		document.onmousemove = function (e)
+		{
+			var e = e || window.event;
+			var l = e.clientX - disX;
+			
+			l < 210 && (l = 210);
+			l > maxL && (l = maxL);
+			
+			eBtn.style.left = l + "px";
+			
+			if(eBtn.offsetLeft == maxL)
+				window.location = "eat.html";
+			return false;
+		};
+		document.onmouseup = function ()
+		{
+			document.onmousemove = null;
+			document.onmouseup = null;
+			eBtn.releaseCapture && eBtn.releaseCapture();
+			
+			eBtn.offsetLeft > maxL-25?
+				startMove(maxL, function ()
+				{
+					window.location = "eat.html";
+				},eBtn) :
+				startMove(210,0,eBtn)
+		};
+		this.setCapture && this.setCapture();
+		return false
+	}
+	pBtn.onmousedown = function(e){
+		var e = e || window.event;
+		disX = e.clientX - this.offsetLeft;
+		
+		document.onmousemove = function (e)
+		{
+			var e = e || window.event;
+			var l = e.clientX - disX;
+			
+			l < 20 && (l = 20);
+			l > 115 && (l = 115);
+			
+			pBtn.style.left = l + "px";
+			
+			if(pBtn.offsetLeft == 20)
+				window.location = "play.html";
+			return false;
+		};
+		document.onmouseup = function ()
+		{
+			document.onmousemove = null;
+			document.onmouseup = null;
+			pBtn.releaseCapture && pBtn.releaseCapture();
+			
+			pBtn.offsetLeft < 45?
+				startMove(20, function ()
+				{
+					window.location = "play.html";
+				},pBtn) :
+				startMove(115,0,pBtn)
+		};
+		this.setCapture && this.setCapture();
+		return false
+	}
+	
+	function startMove (iTarget, onEnd, Btn)
+	{
+		clearInterval(Btn.timer);
+		Btn.timer = setInterval(function ()
+		{
+			doMove(iTarget, onEnd, Btn)
+		}, 30)
+	}
+	function doMove (iTarget, onEnd, Btn)
+	{
+		var iSpeed = (iTarget - Btn.offsetLeft) / 5;
+		iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+		iTarget == Btn.offsetLeft ? (clearInterval(Btn.timer), onEnd && onEnd()) : Btn.style.left = iSpeed + Btn.offsetLeft + "px"
+	}
+};
+</script>
+</head>
+<body>
+<div id="frame">
+<div id="lock"><spanp></spanp><><spane></spane></div>
+</div>
+</body>
+</html>
+
