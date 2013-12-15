@@ -68,18 +68,20 @@ SearchModule.conditionRandom = function(searchCondition, onSuccess, onError){
 SearchModule.conditionSearch = function(searchCondition, onSuccess, onError){
 
     getPosition(function(latitude, longitude){
-
-	    var rest = DataAccessAPI.getRestaurantsByCondition(searchCondition); 
-		if(rest.length > 0){
-		    onSuccess(rest);
-		}else{
-		    var error = {
-			    code : 4,
-				message : "No restaurants are found!"
+        alert("ohiyo");
+	    DataAccessAPI.getRestaurantsByCondition(searchCondition,
+        function(rest){		
+			if(rest.length > 0){
+				onSuccess(rest);
+			}else{
+				var error = {
+					code : 4,
+					message : "No restaurants are found!"
+				}
+				onError(error);
+				return;
 			}
-			onError(error);
-		    return;
-		}
+		}, onError);
 	}, onError);
 	
 }

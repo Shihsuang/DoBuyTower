@@ -27,17 +27,18 @@ DataAccessAPI.getAllRestaurants = function(onSuccess, onError){
 }
 */
 DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError){
-    //alert("yo");
+    
 	
 	//資料來源:restaurants
 
 	var result = new Array();
 	var min = 0;
 	var max = restaurants.length;
-	
+	alert(max);
 	if(condition.page){
 		if(!isNaN(condition.page.min)){
 			min = condition.page.min - 1;
+			
 		}
 		
 		if(!isNaN(condition.page.max)){
@@ -48,8 +49,9 @@ DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError
 	for(var i = min; i < max; i++){
 	    result.push(restaurants[i]);
 	}
-	
+	alert("yo");
 	onSuccess(result);
+	
     //return result;
 
 }
