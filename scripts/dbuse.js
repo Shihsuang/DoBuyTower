@@ -48,12 +48,11 @@ myStorage.indexedDB.addComments = function(commentsData) {
 		var store = trans.objectStore("comments");
 		
 		var data = {
-			"name": restaurantData.name,
-			"position": {"latitude":restaurantData.position.latitude,"longitude":restaurantData.position.longitude},
-			"phone":restaurantData.phone,
-			"address": restaurantData.address,
-			"score": restaurantData.score,
-			"numberOfComments": restaurantData.numberOfComments
+			restaurantId:commentsData.restaurantId,
+			date:commentsData.date, 
+			score:commentsData.score, 
+			comments:commentsData.comments, 
+			pictures:commentsData.pictures
 		};
  
 		var request = store.put(data);
@@ -105,14 +104,10 @@ myStorage.indexedDB.addRestaurant = function(restaurantData) {
 		var data = {
 			"name": restaurantData.name,
 			"position": {"latitude":restaurantData.position.latitude,"longitude":restaurantData.position.longitude},
+			"catagory": {"catagory":restaurantData.catagory},
 			"phone":restaurantData.phone,
 			"address": restaurantData.address,
-			"score": restaurantData.score,
-			"numberOfComments": restaurantData.numberOfComments
-		};/*
-		var data ={
-			"name": restaurantData
-		};*/
+		};
  
 		var request = store.put(data);
 
