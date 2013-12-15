@@ -121,32 +121,36 @@ function shopInfo(nameAndAddr){
 	return null;
 }
 
-function calDistance(userAddr,shopAddr){
-	/*
-	 * calculate distance between user and shop,
-	 * shop suppose be an object array that include
-	 * all info in shop
-	 */
-	var origin = new google.maps.LatLng(userAddr[0], userAddr[1]);
-	var destination = shopAddr;
-	
-	var service = new google.maps.DistanceMatrixService();
-	service.getDistanceMatrix(
-	  {
-	    origins: origin,
-	    destinations: [''],
-	    travelMode: google.maps.TravelMode.DRIVING,
-	    avoidHighways: false,
-	    avoidTolls: false
-	  }, callback);
-
-	function callback(response, status) {
-	  // Parsing the Results for
-	  // the basics of a callback function.
+function calDistance(userAddr,shopAddr,limit){
+	google.maps.LatLng.prototype.distanceFrom = function(lat,lng) {	
+		var lat = [this.lat(), latlng.lat()]
+		var lng = [this.lng(), latlng.lng()]
+		var R = 6378137;
+		var dLat = (lat[1]-lat[0]) * Math.PI / 180;
+		var dLng = (lng[1]-lng[0]) * Math.PI / 180;
+		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+		Math.cos(lat[0] * Math.PI / 180 ) * Math.cos(lat[1] * Math.PI / 180 ) *
+		Math.sin(dLng/2) * Math.sin(dLng/2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		var d = R * c;
+		return Math.round(d);
 	}
+	
+	var origin = new GLatLng(userAddr[0],userAddr[1]);
+	var results = new Arrray();
+	
+	for(var i in shopAddr){
+		var temp = shopInfo(shopAddr[i]);
+		var destination = new GLatLng(temp.lat,temp.lng);
+		distance = destination.ditanceFrom(origin);
+		if(distance<limit){
+			results.push(temp.name);
+		}
+	}
+	return results;
 }
 
 
 //after all,Initializes the Google Map
-//google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', init);
 
