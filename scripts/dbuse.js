@@ -48,11 +48,11 @@ myStorage.indexedDB.addComments = function(commentsData) {
 		var store = trans.objectStore("comments");
 		
 		var data = {
-			restaurantId:commentsData.restaurantId,
-			date:commentsData.date, 
-			score:commentsData.score, 
-			comments:commentsData.comments, 
-			pictures:commentsData.pictures
+			"restaurantId":commentsData.restaurantId,
+			"date":commentsData.date, 
+			"score":commentsData.score, 
+			"comments":commentsData.comments, 
+			"pictures":commentsData.pictures
 		};
  
 		var request = store.put(data);
@@ -181,9 +181,14 @@ myStorage.indexedDB.updateTodo = function(id, newText) {
 		openCursorReq.onsuccess = function (event) {
 			var cursor = event.target.result;
 			var _object = cursor.value;
-			var currentDateTime = new Date();
-			_object.dateCreated = currentDateTime.toUTCString(currentDateTime.getTime());
-			_object.text = newText;
+			
+			_object.name = newText.name;
+			_object.position.latitude=newText.position.latitude;
+			_object.position.longitude=newText.position.longitude;
+			_object.catagory=newText.catagory;
+			_object.phone=newText.phone;
+			_object.address=newText.address;			
+			
 			var updateRequest = cursor.update(_object);
 			updateRequest.onerror = updateRequest.onblocked = function () {
 				console.log('Error updating');
