@@ -56,6 +56,15 @@ DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError
 
 }
 
+DataAccessAPI.addRestaurant = function (data){
+    myStorage.indexedDB.addRestaurant(data);
+	alert("abc");
+}
+
+DataAccessAPI.deleteRestaurant = function (id){
+    myStorage.indexedDB.deleteRestaurant(id);
+}
+
 /*condtion 
 {
     restaurantId:,
@@ -98,3 +107,14 @@ DataAccessAPI.getCommentsByCondition = function(condition, onSuccess, onError){
 	}
 
 }
+
+
+DataAccessAPI.addComments = function (data){
+    myStorage.indexedDB.addComments(data);
+	alert("abc");
+}
+
+DataAccessAPI.deleteComments = function (id){
+    myStorage.indexedDB.deleteComments(id);
+}
+
