@@ -2,7 +2,7 @@
   "version": "0.1",
   "name": "Open Web App",
   "description": "Your new awesome Open Web App",
-  "launch_path": "/index.html",
+  "launch_path": "/NewItem.html",
   "icons": {
     "16": "/app-icons/icon-16.png",
     "48": "/app-icons/icon-48.png",

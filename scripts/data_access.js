@@ -111,7 +111,7 @@ DataAccessAPI.getCommentsByCondition = function(condition, onSuccess, onError){
 
 DataAccessAPI.addComments = function (data){
     myStorage.indexedDB.addComments(data);
-	alert("abc");
+	alert("abcd");
 }
 
 DataAccessAPI.deleteComments = function (id){
