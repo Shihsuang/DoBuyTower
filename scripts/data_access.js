@@ -105,3 +105,14 @@ DataAccessAPI.getCommentsByCondition = function(condition, onSuccess, onError){
 	}
 
 }
+
+
+DataAccessAPI.addComments = function (data){
+    myStorage.indexedDB.addComments(data);
+	alert("abc");
+}
+
+DataAccessAPI.deleteComments = function (id){
+    myStorage.indexedDB.deleteComments(id);
+}
+

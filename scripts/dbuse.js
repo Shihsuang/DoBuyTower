@@ -25,7 +25,7 @@ myStorage.indexedDB.create = function() {
 			var storeReq = db.deleteObjectStore("comment");
 		}
 
-		db.createObjectStore("comment", { keyPath: "id", autoIncrement : true });
+		db.createObjectStore("comments", { keyPath: "id", autoIncrement : true });
 	};
 
 	request.onsuccess = function(e) {
@@ -35,6 +35,61 @@ myStorage.indexedDB.create = function() {
 
 	request.onerror = myStorage.indexedDB.onerror;
 };
+
+
+
+
+
+myStorage.indexedDB.addComments = function(commentsData) {
+	var request = indexedDB.open("eatplay");
+	request.onsuccess = function(e) {
+		var db = e.target.result;
+		var trans = db.transaction(["comments"], myStorage.IDBTransactionModes.READ_WRITE);
+		var store = trans.objectStore("comments");
+		
+		var data = {
+			"name": restaurantData.name,
+			"position": {"latitude":restaurantData.position.latitude,"longitude":restaurantData.position.longitude},
+			"phone":restaurantData.phone,
+			"address": restaurantData.address,
+			"score": restaurantData.score,
+			"numberOfComments": restaurantData.numberOfComments
+		};
+ 
+		var request = store.put(data);
+
+		trans.oncomplete = function(e){
+			db.close();
+		};
+
+		request.onerror = function(e) {
+			console.log("Error Adding: ", e);
+		};
+	};
+	request.onerror = myStorage.indexedDB.onerror;
+};
+
+myStorage.indexedDB.deleteComments = function(id) {
+	var request = indexedDB.open("eatplay");
+	request.onsuccess = function(e) {
+		var db = e.target.result;
+		var trans = db.transaction(["comments"], myStorage.IDBTransactionModes.READ_WRITE);
+		var store = trans.objectStore("comments");
+		var request = store.delete(id);
+
+		trans.oncomplete = function(e) {
+			db.close();
+		};
+
+		request.onerror = function(e) {
+			console.log("Error Adding: ", e);
+		};
+	};
+	request.onerror = myStorage.indexedDB.onerror;
+};
+
+
+
 
 
 
