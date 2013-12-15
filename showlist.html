@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<body>
-
-<p id="demo">My First Paragraph</p>
-
-<script>
-function myFunction(name,address,star,tel,comment)
-{
-	var combine = "店名："+name +"\t地址："+address+"\t星等："+star+"\t電話："+tel+"\t評價："+comment;
-	return combine;
-}
-
-document.getElementById("demo").innerHTML=myFunction("阿諾可麗餅","桃園縣中壢市中大路300號",5,"0800123456","店員動作很快");
-var cart = JSON.parse ( jsonString );
-alert ( cart.shopperEmail );
-alert ( cart.contents[1].productName );
+<head>
+<script src="show.js"></script>
+<hr width=300 size=1 color=#000000 align=center noshade>
+<p id=1></p>
+<hr width=300 size=1 color=#000000 align=center noshade>
+<p id=2></p>
+<hr width=300 size=1 color=#000000 align=center noshade>
+<script type="text/javascript">
 </script>
+</head>
 
+<body>
+<button onclick="showrestaurant()">show店家</button>
 </body>
 </html>
