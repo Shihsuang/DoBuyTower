@@ -34,7 +34,7 @@ DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError
 	var result = new Array();
 	var min = 0;
 	var max = restaurants.length;
-	alert(max);
+	//alert(max);
 	if(condition.page){
 		if(!isNaN(condition.page.min)){
 			min = condition.page.min - 1;
@@ -49,7 +49,7 @@ DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError
 	for(var i = min; i < max; i++){
 	    result.push(restaurants[i]);
 	}
-	alert("yo");
+	//alert("yo");
 	onSuccess(result);
 	
     //return result;
