@@ -27,17 +27,18 @@ DataAccessAPI.getAllRestaurants = function(onSuccess, onError){
 }
 */
 DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError){
-    //alert("yo");
+    
 	
 	//資料來源:restaurants
 
 	var result = new Array();
 	var min = 0;
 	var max = restaurants.length;
-	
+	alert(max);
 	if(condition.page){
 		if(!isNaN(condition.page.min)){
 			min = condition.page.min - 1;
+			
 		}
 		
 		if(!isNaN(condition.page.max)){
@@ -48,10 +49,20 @@ DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError
 	for(var i = min; i < max; i++){
 	    result.push(restaurants[i]);
 	}
-	
+	alert("yo");
 	onSuccess(result);
+	
     //return result;
 
+}
+
+DataAccessAPI.addRestaurant = function (data){
+    myStorage.indexedDB.addRestaurant(data);
+	alert("abc");
+}
+
+DataAccessAPI.deleteRestaurant = function (id){
+    myStorage.indexedDB.deleteRestaurant(id);
 }
 
 /*condtion 
@@ -96,3 +107,14 @@ DataAccessAPI.getCommentsByCondition = function(condition, onSuccess, onError){
 	}
 
 }
+
+
+DataAccessAPI.addComments = function (data){
+    myStorage.indexedDB.addComments(data);
+	alert("abc");
+}
+
+DataAccessAPI.deleteComments = function (id){
+    myStorage.indexedDB.deleteComments(id);
+}
+
