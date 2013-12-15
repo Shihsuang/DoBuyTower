@@ -20,13 +20,13 @@ function getPosition(callbackOnSuccess, callbackOnError){
 
 /*SearchCondition 
 {
-
     position:{
 	    latitude:,
 		longitutde:,
 		distance:
 	},
 	category:2,
+	
 	//分數的範圍
 	score:{
 	    max:5,
@@ -49,16 +49,19 @@ SearchModule.conditionRandom = function(searchCondition, onSuccess, onError){
 			min:nth
 		}
 		
-	    var rest = DataAccessAPI.getRestaurantByCondition(searchCondition); 
-		if(rest.length > 0){
-		    onSuccess(rest[0]);
-		}else{
-		    var error = {
-			    code : 4,
-				message : "No restaurants are found!"
+	    DataAccessAPI.getRestaurantsByCondition(searchCondition,
+        function(rest){		
+			if(rest.length > 0){
+			    //alert("ohiyo");
+				onSuccess(rest[0]);
+			}else{
+				var error = {
+					code : 4,
+					message : "No restaurants are found!"
+				}
+				onError(error);
 			}
-			onError(error);
-		}
+		}, onError);
 	}, onError);
 }
 
@@ -66,7 +69,7 @@ SearchModule.conditionSearch = function(searchCondition, onSuccess, onError){
 
     getPosition(function(latitude, longitude){
 
-	    var rest = DataAccessAPI.getRestaurantByCondition(searchCondition); 
+	    var rest = DataAccessAPI.getRestaurantsByCondition(searchCondition); 
 		if(rest.length > 0){
 		    onSuccess(rest);
 		}else{

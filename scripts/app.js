@@ -3,7 +3,7 @@ function btnRandom_clicked(){
     
     SearchModule.conditionRandom({}, function(result){
 	    alert(JSON.stringify(result));
-	}, function(){});
+	}, function(error){alert(error.message)});
 }
 
 function btnSearch_clicked(){
@@ -13,5 +13,18 @@ function btnSearch_clicked(){
 	    for(var i in result){
 		    alert(JSON.stringify(result[i]));
 		}
-	}, function(){});
+	}, function(error){alert(error.message)});
+}
+
+function btnComments_clicked(){
+
+    var value = document.getElementById("restaurantId").value;
+    alert(value);
+	
+	DataAccessAPI.getCommentsByCondition({restaurantId:value},
+	function(result){
+	    for(var i in result){
+		    alert(JSON.stringify(result[i]));
+		}
+	});
 }
