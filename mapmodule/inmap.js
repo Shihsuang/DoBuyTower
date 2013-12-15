@@ -12,22 +12,13 @@ var locationData;
 var infoWindow;
 var marker;
 
-function importGmapAPI(){
-	/*
-	 * add the script tag into html,load the api also
-	 */
-	var script = document.createElement('script');
-	script.src = "https://maps.googleapis.com/maps/api/js?v=3.exp&key={API_KEY}&sensor=true";
-	document.body.appendChild(script);
-}
-
-function init(shops){
+function init(){
 	/*
 	 * init the map and get user address by using Geolocation
 	 * and set user address to center,then show out
 	 */
 	 var mapOptions = {
-			 zoom : 10,
+			 zoom : 6,
 		     mapTypeId : google.maps.MapTypeId.ROADMAP
 	 };
 	 
@@ -43,8 +34,23 @@ function init(shops){
 				 content:'Your location here.',
 			 });
 			 map.setCenter(userPos);
-		 },function(){
+		 },function(error){
+			 //error handling
 			 handleNoGeolocation(true);
+			 switch(error.code){
+			 case error.TIMEOUT:
+				 alert('connection timeout');
+				 break;
+			 case error.POSITION_UNAVAILABLE:
+				 alert('position unavailable');
+				 break;
+			 case error.PERMISSION_DENIED:
+				 alert('please turn on the GPS functional');
+				 break;
+			 case error.UNKNOWN_ERROR:
+				 alert('unknown error sorry.');
+				 break;
+			 }
 		 });
 	 }else{
 		// Browser doesn't support Geolocation
@@ -101,19 +107,20 @@ function handleNoGeolocation(errorFlag) {
 //	return infoWindow;
 //}
 
-function shopInfo(nameAndAddr){
+function shopInfo(argument){
 	/*
 	 * get shop address , comment ,and avg stars ,
+	 * by using shop address or shop gps coordinate
 	 * from database whatever from our's or everbody's
 	 * after that feed those to getInfoWindow function
 	 */
-	if(shopName!=null){
-		/*
-		 * data base connect and using the encryption function to capture data
-		 */
+	if(typeof(argument)=='string'){
+		 //parameter is shop name 
+		return shopInfo;
 	}else{
-		if(shopAddr!=null){
-			//database connect and using the encryption function to capture data
+		if(typeof(argument[0])=='number'&&typeof(argument[1])=='number'){
+			//parameter is shop coordinate
+			return shopInfo;
 		}else{
 			alert("no data input or source error.");
 		}
@@ -121,7 +128,11 @@ function shopInfo(nameAndAddr){
 	return null;
 }
 
-function calDistance(userAddr,shopAddr,limit){
+function calDistance(userCoordinate,shopCoordinate,limit){
+	/*
+	 * Great-circle distance formula approach to implement distance
+	 * between two point when given latitude and longitude 
+	 */
 	google.maps.LatLng.prototype.distanceFrom = function(lat,lng) {	
 		var lat = [this.lat(), latlng.lat()]
 		var lng = [this.lng(), latlng.lng()]
@@ -136,7 +147,7 @@ function calDistance(userAddr,shopAddr,limit){
 		return Math.round(d);
 	}
 	
-	var origin = new GLatLng(userAddr[0],userAddr[1]);
+	var origin = new GLatLng(userCoordinate[0],userCoordinate[1]);
 	var results = new Arrray();
 	
 	for(var i in shopAddr){
@@ -152,5 +163,5 @@ function calDistance(userAddr,shopAddr,limit){
 
 
 //after all,Initializes the Google Map
-//google.maps.event.addDomListener(window, 'load', init);
+google.maps.event.addDomListener(window, 'load', init);
 
