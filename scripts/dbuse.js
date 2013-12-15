@@ -1,6 +1,4 @@
 var myStorage = {};
-
-
 myStorage.indexedDB = {};
 
 myStorage.indexedDB.onerror = function(e) {
@@ -16,18 +14,18 @@ myStorage.indexedDB.create = function() {
 			var storeReq = db.deleteObjectStore("restaurant");
 		}
 
-		db.createObjectStore("restaurant", {keyPath: "timeStamp"});
+		db.createObjectStore("restaurant", { keyPath: "id", autoIncrement : true });
 		
 		if (db.objectStoreNames.contains("category")) {
 			var storeReq = db.deleteObjectStore("category");
 		}
 
-		db.createObjectStore("category", {keyPath: "timeStamp"});
+		db.createObjectStore("category", { keyPath: "id", autoIncrement : true });
 		if (db.objectStoreNames.contains("comment")) {
 			var storeReq = db.deleteObjectStore("comment");
 		}
 
-		db.createObjectStore("comment", {keyPath: "timeStamp"});
+		db.createObjectStore("comment", { keyPath: "id", autoIncrement : true });
 	};
 
 	request.onsuccess = function(e) {
@@ -38,24 +36,29 @@ myStorage.indexedDB.create = function() {
 	request.onerror = myStorage.indexedDB.onerror;
 };
 
-myStorage.indexedDB.addTodo = function(todoText) {
+
+
+
+
+myStorage.indexedDB.addRestaurant = function(restaurantData) {
 	var request = indexedDB.open("eatplay");
 	request.onsuccess = function(e) {
 		var db = e.target.result;
 		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_WRITE);
 		var store = trans.objectStore("restaurant");
-		var currentDateTime = new Date();
 		
 		var data = {
-			"name": todoText,
-			"position": {"latitude":1321.456,"longitude":-123.456 },
-			"phone": "03-123456",
-			"address": "桃園縣中壢市中大路300號",
-			"score": 4,
-			"numberOfComments": 3,
-			"timeStamp": new Date().getTime()
-		};
-
+			"name": restaurantData.name,
+			"position": {"latitude":restaurantData.position.latitude,"longitude":restaurantData.position.longitude},
+			"phone":restaurantData.phone,
+			"address": restaurantData.address,
+			"score": restaurantData.score,
+			"numberOfComments": restaurantData.numberOfComments
+		};/*
+		var data ={
+			"name": restaurantData
+		};*/
+ 
 		var request = store.put(data);
 
 		trans.oncomplete = function(e){
@@ -70,7 +73,7 @@ myStorage.indexedDB.addTodo = function(todoText) {
 	request.onerror = myStorage.indexedDB.onerror;
 };
 
-myStorage.indexedDB.deleteTodo = function(id) {
+myStorage.indexedDB.deleteRestaurant = function(id) {
 	var request = indexedDB.open("eatplay");
 	request.onsuccess = function(e) {
 		var db = e.target.result;
@@ -89,6 +92,9 @@ myStorage.indexedDB.deleteTodo = function(id) {
 	};
 	request.onerror = myStorage.indexedDB.onerror;
 };
+
+
+
 
 myStorage.indexedDB.getTodo = function(id) {
 	var request = indexedDB.open("eatplay");
@@ -195,4 +201,3 @@ myStorage.indexedDB.deleteDB = function (){
 };
 
 myStorage.IDBTransactionModes = { "READ_ONLY": "readonly", "READ_WRITE": "readwrite", "VERSION_CHANGE": "versionchange" }; 
-

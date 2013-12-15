@@ -54,6 +54,15 @@ DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError
 
 }
 
+DataAccessAPI.addRestaurant = function (data){
+    myStorage.indexedDB.addRestaurant(data);
+	alert("abc");
+}
+
+DataAccessAPI.deleteRestaurant = function (id){
+    myStorage.indexedDB.deleteRestaurant(id);
+}
+
 /*condtion 
 {
     restaurantId:,
