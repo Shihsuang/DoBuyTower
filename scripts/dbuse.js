@@ -48,12 +48,11 @@ myStorage.indexedDB.addComments = function(commentsData) {
 		var store = trans.objectStore("comments");
 		
 		var data = {
-			"name": restaurantData.name,
-			"position": {"latitude":restaurantData.position.latitude,"longitude":restaurantData.position.longitude},
-			"phone":restaurantData.phone,
-			"address": restaurantData.address,
-			"score": restaurantData.score,
-			"numberOfComments": restaurantData.numberOfComments
+			"restaurantId":commentsData.restaurantId,
+			"date":commentsData.date, 
+			"score":commentsData.score, 
+			"comments":commentsData.comments, 
+			"pictures":commentsData.pictures
 		};
  
 		var request = store.put(data);
@@ -105,14 +104,10 @@ myStorage.indexedDB.addRestaurant = function(restaurantData) {
 		var data = {
 			"name": restaurantData.name,
 			"position": {"latitude":restaurantData.position.latitude,"longitude":restaurantData.position.longitude},
+			"catagory": {"catagory":restaurantData.catagory},
 			"phone":restaurantData.phone,
 			"address": restaurantData.address,
-			"score": restaurantData.score,
-			"numberOfComments": restaurantData.numberOfComments
-		};/*
-		var data ={
-			"name": restaurantData
-		};*/
+		};
  
 		var request = store.put(data);
 
@@ -186,9 +181,14 @@ myStorage.indexedDB.updateTodo = function(id, newText) {
 		openCursorReq.onsuccess = function (event) {
 			var cursor = event.target.result;
 			var _object = cursor.value;
-			var currentDateTime = new Date();
-			_object.dateCreated = currentDateTime.toUTCString(currentDateTime.getTime());
-			_object.text = newText;
+			
+			_object.name = newText.name;
+			_object.position.latitude=newText.position.latitude;
+			_object.position.longitude=newText.position.longitude;
+			_object.catagory=newText.catagory;
+			_object.phone=newText.phone;
+			_object.address=newText.address;			
+			
 			var updateRequest = cursor.update(_object);
 			updateRequest.onerror = updateRequest.onblocked = function () {
 				console.log('Error updating');
