@@ -43,23 +43,19 @@ function getPosition(callbackOnSuccess, callbackOnError){
 SearchModule.conditionRandom = function(searchCondition, onSuccess, onError){
 	getPosition(function(latitude, longitude){
 	    //alert("456");
-		var nth = Math.floor((Math.random() * 5) + 1); //a random number between 1-5 
-		searchCondition.page = {
-		    max:nth,
-			min:nth
-		}
-		
+		 
 	    DataAccessAPI.getRestaurantsByCondition(searchCondition,
         function(rest){		
 			if(rest.length > 0){
-			    //alert("ohiyo");
-				onSuccess(rest[0]);
+			    var nth = Math.floor((Math.random() * rest.length)); //a random number between 0 ~ rest.length -1
+				onSuccess(rest[nth]);
 			}else{
 				var error = {
 					code : 4,
 					message : "No restaurants are found!"
 				}
 				onError(error);
+				return;
 			}
 		}, onError);
 	}, onError);
@@ -78,7 +74,7 @@ SearchModule.conditionSearch = function(searchCondition, onSuccess, onError){
 					code : 4,
 					message : "No restaurants are found!"
 				}
-				onError(error);
+				//onError(error);
 				return;
 			}
 		}, onError);

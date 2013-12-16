@@ -52,11 +52,11 @@ var restaurants = [
         name:"摩斯漢堡",
 		phone:"03-123456",
 	    position:{
-	        latitude:1321.456,
+	        latitude:42.98937,
 		    longitude:-123.456
 	    },
 	    address:"桃園縣中壢市中大路300號",
-	    category:[1, 2],
+	    category:2,
 		score:4,
 	    numberOfComments:2
 	},
@@ -65,11 +65,11 @@ var restaurants = [
         name:"野味便當店",
 		phone:"03-123456",
 	    position:{
-	        latitude:1321.456,
+	        latitude:42.98937,
 		    longitude:-123.456
 	    },
 	    address:"桃園縣中壢市中大路300號",
-	    category:[3],
+	    category:3,
 	    score:4,
 	    numberOfComments:2
 	},
@@ -78,11 +78,11 @@ var restaurants = [
         name:"阿諾可麗餅",
 		phone:"03-123456",
 	    position:{
-	        latitude:1321.456,
+	        latitude:42.98937,
 		    longitude:-123.456
 	    },
 	    address:"桃園縣中壢市中大路300號",
-	    category:[1, 2],
+	    category:1,
 	    score:4,
 	    numberOfComments:2
 	},
@@ -91,11 +91,11 @@ var restaurants = [
         name:"福泉豆花店",
 		phone:"03-123456",
 	    position:{
-	        latitude:1321.456,
+	        latitude:42.98937,
 		    longitude:-123.456
 	    },
 	    address:"桃園縣中壢市中大路300號",
-	    category:[4, 5],
+	    category:4,
 	    score:4,
 	    numberOfComments:2
 	},
@@ -104,11 +104,11 @@ var restaurants = [
         name:"八鍋",
 		phone:"03-123456",
 	    position:{
-	        latitude:1321.456,
+	        latitude:42.98937,
 		    longitude:-123.456
 	    },
 	    address:"桃園縣中壢市中大路300號",
-	    category:[6],
+	    category:6,
 	    score:4,
 	    numberOfComments:2
 	}
@@ -131,7 +131,7 @@ var comments = [
 	{
 	    id:1,
 	    restaurantId:1,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"好吃", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -139,7 +139,7 @@ var comments = [
 	{
 	    id:2,
 	    restaurantId:1,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"還好", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -147,7 +147,7 @@ var comments = [
 	{
 	    id:3,
 	    restaurantId:1,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"超棒", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -155,7 +155,7 @@ var comments = [
 	{
 	    id:4,
 	    restaurantId:1,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"ㄜㄜㄜ", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -163,7 +163,7 @@ var comments = [
 	{
 	    id:5,
 	    restaurantId:2,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"好吃", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -171,7 +171,7 @@ var comments = [
 	{
 	    id:6,
 	    restaurantId:2,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"還好", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -179,7 +179,7 @@ var comments = [
 	{
 	    id:7,
 	    restaurantId:2,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"),  
 		score:4, 
 		comment:"超棒", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -187,7 +187,7 @@ var comments = [
 	{
 	    id:8,
 	    restaurantId:2,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"ㄜㄜㄜ", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -195,7 +195,7 @@ var comments = [
 	{
 	    id:9,
 	    restaurantId:3,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"好吃", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -203,7 +203,7 @@ var comments = [
 	{
 	    id:10,
 	    restaurantId:3,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"還好", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -211,7 +211,7 @@ var comments = [
 	{
 	    id:11,
 	    restaurantId:3,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"超棒", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -219,7 +219,7 @@ var comments = [
 	{
 	    id:12,
 	    restaurantId:3,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"ㄜㄜㄜ", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -227,7 +227,7 @@ var comments = [
 	{
 	    id:13,
 	    restaurantId:4,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"好吃", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -235,7 +235,7 @@ var comments = [
 	{
 	    id:14,
 	    restaurantId:4,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"還好", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -243,7 +243,7 @@ var comments = [
 	{
 	    id:15,
 	    restaurantId:4,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"),  
 		score:4, 
 		comment:"超棒", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -251,7 +251,7 @@ var comments = [
 	{
 	    id:16,
 	    restaurantId:4,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"ㄜㄜㄜ", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -259,7 +259,7 @@ var comments = [
 	{
 	    id:17,
 	    restaurantId:5,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"好吃", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -267,7 +267,7 @@ var comments = [
 	{
 	    id:18,
 	    restaurantId:5,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"), 
 		score:4, 
 		comment:"還好", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -275,7 +275,7 @@ var comments = [
 	{
 	    id:19,
 	    restaurantId:5,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"),  
 		score:4, 
 		comment:"超棒", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]
@@ -283,7 +283,7 @@ var comments = [
 	{
 	    id:20,
 	    restaurantId:5,
-	    date:"2013-12-13", 
+	    date:new Date("12/13/2013"),  
 		score:4, 
 		comment:"ㄜㄜㄜ", 
 		pictures:["1.jpg", "2.jpg", "3.jpg"]

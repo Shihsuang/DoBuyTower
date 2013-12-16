@@ -28,10 +28,12 @@ DataAccessAPI.getAllRestaurants = function(onSuccess, onError){
 */
 DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError){
     
-	
+	myStorage.indexedDB.searchRestaurants(condition, onSuccess);
 	//資料來源:restaurants
 
-	var result = new Array();
+	
+	
+	/*var result = new Array();
 	var min = 0;
 	var max = restaurants.length;
 	//alert(max);
@@ -50,7 +52,7 @@ DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError
 	    result.push(restaurants[i]);
 	}
 	//alert("yo");
-	onSuccess(result);
+	onSuccess(result);*/
 	
     //return result;
 
@@ -58,7 +60,6 @@ DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError
 
 DataAccessAPI.addRestaurant = function (data){
     myStorage.indexedDB.addRestaurant(data);
-	alert("abc");
 }
 
 DataAccessAPI.deleteRestaurant = function (id){
@@ -79,8 +80,15 @@ DataAccessAPI.deleteRestaurant = function (id){
 }
 */
 
-DataAccessAPI.getCommentsByCondition = function(condition, onSuccess, onError){
-    
+DataAccessAPI.getCommentsByCondition = function(condition, onSuccess){
+
+	/*for(var i in comments){
+	    DataAccessAPI.addComments(comments[i]);
+	}
+	for(var i in restaurants){
+	    DataAccessAPI.addRestaurant(restaurants[i]);
+	}*/
+	/*
 	if(condition){
         if(!isNaN(condition.restaurantId)){
 		
@@ -104,14 +112,13 @@ DataAccessAPI.getCommentsByCondition = function(condition, onSuccess, onError){
 			message: "condition not defined"
 		}
 	    onError(error);
-	}
-
+	}*/
+    myStorage.indexedDB.searchComments(condition, onSuccess);
 }
 
 
 DataAccessAPI.addComments = function (data){
     myStorage.indexedDB.addComments(data);
-	alert("abc");
 }
 
 DataAccessAPI.deleteComments = function (id){

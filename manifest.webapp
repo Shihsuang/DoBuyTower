@@ -29,8 +29,14 @@
   "default_locale": "en",
   "type": "privileged",
   "permissions": {
-      "geolocation": {
-          "description" : "Used to locate me"
-      }
+    "geolocation": {
+      "description" : "Used to locate me"
+    },
+    "systemXHR": { 
+      "description": "Required to make Network calls" 
+    },
+    "storage":{
+      "description": "Required to make Network calls" 
+    }
   }
 }
