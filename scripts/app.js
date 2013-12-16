@@ -1,4 +1,3 @@
-
 function btnRandom_clicked(){
     
     SearchModule.conditionRandom({
@@ -15,8 +14,10 @@ function btnRandom_clicked(){
 	        max:50,
 		    min:1,
 	    }
-	}, function(result){
-	    alert(JSON.stringify(result));
+	}, 
+	function(result){
+		localStorage.setItem("res",JSON.stringify( result ));
+	    location.href='showrandom.html';
 	}, function(error){alert(error.message)});
 }
 
@@ -38,9 +39,8 @@ function btnSearch_clicked(){
 	    }
 	}, 
 	function(result){
-	    for(var i in result){
-		    alert(JSON.stringify(result[i]));
-		}
+		localStorage.setItem("res",JSON.stringify( result ));
+	    location.href='showsearch.html';
 	}, function(error){alert(error.message)});
 }
 
@@ -62,8 +62,9 @@ function btnComments_clicked(){
 		}
 	},
 	function(result){
-	    for(var i in result){
-		    alert(JSON.stringify(result[i]));
-		}
+	    //alert(JSON.stringify( result ));
+		localStorage.setItem("res",JSON.stringify( result ));
+	    location.href='showcomment.html';
 	});
 }
+

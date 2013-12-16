@@ -74,7 +74,7 @@ SearchModule.conditionSearch = function(searchCondition, onSuccess, onError){
 					code : 4,
 					message : "No restaurants are found!"
 				}
-				//onError(error);
+				onError(error);
 				return;
 			}
 		}, onError);

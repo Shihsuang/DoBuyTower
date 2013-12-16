@@ -29,32 +29,6 @@ DataAccessAPI.getAllRestaurants = function(onSuccess, onError){
 DataAccessAPI.getRestaurantsByCondition = function(condition, onSuccess, onError){
     
 	myStorage.indexedDB.searchRestaurants(condition, onSuccess);
-	//資料來源:restaurants
-
-	
-	
-	/*var result = new Array();
-	var min = 0;
-	var max = restaurants.length;
-	//alert(max);
-	if(condition.page){
-		if(!isNaN(condition.page.min)){
-			min = condition.page.min - 1;
-			
-		}
-		
-		if(!isNaN(condition.page.max)){
-			max = condition.page.max;
-		}
-	}
-	
-	for(var i = min; i < max; i++){
-	    result.push(restaurants[i]);
-	}
-	//alert("yo");
-	onSuccess(result);*/
-	
-    //return result;
 
 }
 
@@ -88,31 +62,7 @@ DataAccessAPI.getCommentsByCondition = function(condition, onSuccess){
 	for(var i in restaurants){
 	    DataAccessAPI.addRestaurant(restaurants[i]);
 	}*/
-	/*
-	if(condition){
-        if(!isNaN(condition.restaurantId)){
-		
-		    var result = new Array();
-			for(var i in comments){
-			    if(comments[i].restaurantId == condition.restaurantId){
-				    result.push(comments[i]);
-				}
-			}
-			onSuccess(result);
-			
-		}else{
-		
-		    var error = {
-			    message: "restaurantId is NaN"
-			}
-			onError(error);
-		}
-    }else{
-	    var error = {
-			message: "condition not defined"
-		}
-	    onError(error);
-	}*/
+	
     myStorage.indexedDB.searchComments(condition, onSuccess);
 }
 

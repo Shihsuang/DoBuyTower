@@ -107,8 +107,9 @@ myStorage.indexedDB.searchComments = function(condition, onSuccess){
 		var trans = db.transaction(["comments"], myStorage.IDBTransactionModes.READ_ONLY);
 		var store = trans.objectStore("comments");
 		
+		var result = new Array();
 		store.openCursor().onsuccess = function(event){
-		  var result = new Array();
+		  
 		  var cursor = event.target.result;
 		  if (cursor) {
 			
@@ -120,7 +121,7 @@ myStorage.indexedDB.searchComments = function(condition, onSuccess){
 			}
 			cursor.continue();
 		  }
-		  onSuccess(result);
+		  
 		}
         /*var index = store.index('condition');
 		var boundKeyRange = IDBKeyRange.bound([condition.restaurantId, condition.date.min, condition.score.min], [condition.restaurantId, condition.date.max, condition.score.max]);
@@ -136,6 +137,7 @@ myStorage.indexedDB.searchComments = function(condition, onSuccess){
 		  }
 		};*/
 		trans.oncomplete = function(e){
+		    onSuccess(result);
 			db.close();
 		};
 	};
@@ -153,7 +155,7 @@ myStorage.indexedDB.addComments = function(commentsData) {
 			"restaurantId":commentsData.restaurantId,
 			"date":commentsData.date, 
 			"score":commentsData.score, 
-			"comments":commentsData.comments, 
+			"comment":commentsData.comment, 
 			"pictures":commentsData.pictures
 		};
  
