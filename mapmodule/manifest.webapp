@@ -1,0 +1,7 @@
+{
+"name":"inmap",
+"description": "Get Now Time",
+"launch_path": "/index.html",
+"developer": { "name": "red", "email": "redbutbray@gmail.com" },
+"default_locale": "en"
+}
