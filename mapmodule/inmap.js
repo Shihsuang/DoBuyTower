@@ -6,19 +6,56 @@
  *  calculate the distance or depend on the distance which we specify to show the shop
  */
 
+//test data
+var restaurants = [
+    {
+	    id:1,
+        name:"摩斯漢堡",
+	    position:{
+	        latitude:26,
+		    longitude:120
+	    },
+	    address:"桃園縣中壢市中大路300號",
+	    category:["速食", "美式"],
+	    comments:[
+	        {date:"2013-12-13", score:4, comment:"好吃", pictures:[]},
+	        {date:"2013-12-13", score:4, comment:"好吃", pictures:[]}
+	    ]
+	},
+    {
+	    id:2,
+        name:"野味便當店",
+	    position:{
+	        latitude:22,
+		    longitude:113
+	    },
+	    address:"桃園縣中壢市中大路300號",
+	    category:["便當", "簡餐"],
+	    comments:[
+	        {date:"2013-12-13", score:4, comment:"好吃", pictures:[]},
+	        {date:"2013-12-13", score:4, comment:"好吃", pictures:[]}
+	    ]
+	}
+	];
+
+var shop1 = restaurants[0];
+var shop2 = restaurants[1];
+//end test data
+
 
 var map;
 var locationData;
 var infoWindow;
-var marker;
+var marker = [];
 
 function init(){
 	/*
 	 * init the map and get user address by using Geolocation
 	 * and set user address to center,then show out
 	 */
+	 
 	 var mapOptions = {
-			 zoom : 6,
+			 zoom : 12,
 		     mapTypeId : google.maps.MapTypeId.ROADMAP
 	 };
 	 
@@ -27,11 +64,12 @@ function init(){
 	 if(navigator.geolocation){
 		 navigator.geolocation.getCurrentPosition(function(position){
 			 var userPos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-			 
+
 			 infoWindow = new google.maps.InfoWindow({
 				 map : map,
-				 position :userPos,
-				 content:'Your location here.',
+				 position : userPos,
+				 content : 'Your location here.',
+	             icon : 'http://labs.google.com/ridefinder/images/mm_20_green.png'
 			 });
 			 map.setCenter(userPos);
 		 },function(error){
@@ -56,27 +94,7 @@ function init(){
 		// Browser doesn't support Geolocation
 		 handleNoGeolocation(false);
 	 }
-	 
-	 //if there are some shop need to be show on map
-	 if(arguments!=null){
-		 //start mark all shop out
-		 for(var i in arguments){
-			 //get shop info
-			 var shop = shopInfo(arguments[i]);
-			 //shop marker create
-			 marker=new google.maps.Marker({
-				 position : new google.naps.Latng(shop.latitude,shop.longitude),
-				 map:map
-			 });
-			 /*
-			  * add infoWindow display here : comment and shop name when purchase the maker
-			  */
-			 google.maps.event.addListener(maker,'click',function(){
-				 infoWindow.setConent('embedded shop info');
-				 infoWindow.open(map,this);
-			 });
-		 }
-	 }
+	 shopMarker(shop1,shop2);
 }
 
 function handleNoGeolocation(errorFlag) {
@@ -91,7 +109,7 @@ function handleNoGeolocation(errorFlag) {
 	
 	options={
 			map : map,
-			position : new google.maps.LatLng(0,0),
+			position : new google.maps.LatLng(24.960856399999997,121.22613720000001),
 			content : content
 	};
 	
@@ -99,43 +117,70 @@ function handleNoGeolocation(errorFlag) {
 	map.setCenter(options.position);
 }
 
-//function getInfoWindow(shopInfoObject){
-	/*
-	 * shop infoWindow factory and
-	 * using shopInfo to construct this
-	 */
-//	return infoWindow;
-//}
+function shopMarker(){
+	 //if there are some shop need to be show on map
+	 if(arguments!=null){
+		 //start mark all shop out
+		 for(var i in arguments){
+			 //get shop info
+			 //var shop = shopInfo(arguments[i].position);
+			 //shop marker create
+			 var shopName = arguments[i].name;
+			 var shopScore = arguments[i].comments[0].score;
+			 var shopAddress = arguments[i].address;
+			 marker=new google.maps.Marker({
+				 position : new google.maps.LatLng(arguments[i].position.latitude,arguments[i].position.longitude),
+				 map : map,
+			 });
+			 
+			 //add infoWindow display here : comment and shop name when purchase the maker
+			  
+			 google.maps.event.addListener(marker,'click',(function(marker,i){
+				 return function(){
+					 infoWindow.setContent("shop name : "+shopName+"<br>"+"shop score : "+shopScore+"<br>"+"shop addr : "+shopAddress);
+					 infoWindow.open(map,marker);
+				 }
+			 })(marker,i));
+		 }
+	 }else{
+		 return false;
+	 }
+}
 
-function shopInfo(argument){
+//function shopInfo(shopsPos){
 	/*
 	 * get shop address , comment ,and avg stars ,
 	 * by using shop address or shop gps coordinate
 	 * from database whatever from our's or everbody's
 	 * after that feed those to getInfoWindow function
 	 */
-	if(typeof(argument)=='string'){
-		 //parameter is shop name 
-		return shopInfo;
-	}else{
-		if(typeof(argument[0])=='number'&&typeof(argument[1])=='number'){
-			//parameter is shop coordinate
-			return shopInfo;
-		}else{
-			alert("no data input or source error.");
-		}
-	}
-	return null;
-}
+//	var results = new Array();
+//	for(var i in shopsPos){
+//		if(typeof(i)=='string'){
+//			 //parameter is shop name 
+//			return shopInfo;
+//		}else{
+//			if(typeof(i)=='number'){
+//				//parameter is shop coordinate
+//				results.push(i);
+//			}else{
+//				alert("no data input or source error.");
+//			}
+//		}
+//	}
+//	alert(results[0]);
+//	return results;
+//}
 
-function calDistance(userCoordinate,shopCoordinate,limit){
+function calDistance(user,shops,limit){
 	/*
 	 * Great-circle distance formula approach to implement distance
-	 * between two point when given latitude and longitude 
+	 * between two point when given latitude and longitude
+	 * formula :  
 	 */
-	google.maps.LatLng.prototype.distanceFrom = function(lat,lng) {	
-		var lat = [this.lat(), latlng.lat()]
-		var lng = [this.lng(), latlng.lng()]
+	google.maps.LatLng.prototype.distanceFrom = function(latlng) {	
+		var lat = [this.lat(), latlng.lat()];
+		var lng = [this.lng(), latlng.lng()];
 		var R = 6378137;
 		var dLat = (lat[1]-lat[0]) * Math.PI / 180;
 		var dLng = (lng[1]-lng[0]) * Math.PI / 180;
@@ -147,12 +192,11 @@ function calDistance(userCoordinate,shopCoordinate,limit){
 		return Math.round(d);
 	}
 	
-	var origin = new GLatLng(userCoordinate[0],userCoordinate[1]);
+	var origin = new GLatLng(userCoordinate.latitude,userCoordinate.longitude);
 	var results = new Arrray();
 	
-	for(var i in shopAddr){
-		var temp = shopInfo(shopAddr[i]);
-		var destination = new GLatLng(temp.lat,temp.lng);
+	for(var i in shops){
+		var destination = new GLatLng(shops[i].position.latitude,shops[i].position.longitude);
 		distance = destination.ditanceFrom(origin);
 		if(distance<limit){
 			results.push(temp.name);
