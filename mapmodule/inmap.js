@@ -175,6 +175,7 @@ function calDistance(lat1, lon1, lat2, lon2){
 	/*
      *Calculates geodetic distance between two points specified 
      *by latitude/longitude using Vincenty inverse formula for ellipsoids
+     *ref : http://www.movable-type.co.uk/scripts/latlong-vincenty.html
 	 */
 	// WGS-84 ellipsoid params
 	var a = 6378137;
