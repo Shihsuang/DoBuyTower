@@ -46,8 +46,10 @@ var windowonload = function (){
 			l < min && (l = min);
 			l > max && (l = max);			
 			Btn.style.left = l + "px";	
-			if(Btn.offsetLeft == max)
+			if(Btn == eBtn && Btn.offsetLeft == max)
 				window.location = "eat.html";
+			else if(Btn == pBtn && Btnn.offsetLeft == min)
+				window.locattioin = "play.html";
 			return false;
 		};
 		document.onmouseup = function (){
