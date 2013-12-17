@@ -1,4 +1,6 @@
 /**
+ * stuID:102525017 gitID:radi9
+ * 
  * This is map module and this module could provide the any map
  * manipulate in this gaia app :Eat or Play
  * 
@@ -93,7 +95,6 @@ function init(){
 		// Browser doesn't support Geolocation
 		 handleNoGeolocation(false);
 	 }
-	 shopMarker(shop1,shop2);
 }
 
 function handleNoGeolocation(errorFlag) {
@@ -117,7 +118,10 @@ function handleNoGeolocation(errorFlag) {
 }
 
 function shopMarker(){
-	 //if there are some shop need to be show on map
+	/*
+	 * get shop information into the map window
+	 * if there are some shop need to be show on map
+	 */
 	 if(arguments!=null){
 		 //start mark all shop out
 		 for(var i in arguments){
@@ -146,30 +150,29 @@ function shopMarker(){
 	 }
 }
 
-//function shopInfo(shopsPos){
+function shopInfo(shopsPos){
 	/*
 	 * get shop address , comment ,and avg stars ,
 	 * by using shop address or shop gps coordinate
 	 * from database whatever from our's or everbody's
 	 * after that feed those to getInfoWindow function
 	 */
-//	var results = new Array();
-//	for(var i in shopsPos){
-//		if(typeof(i)=='string'){
-//			 //parameter is shop name 
-//			return shopInfo;
-//		}else{
-//			if(typeof(i)=='number'){
-//				//parameter is shop coordinate
-//				results.push(i);
-//			}else{
-//				alert("no data input or source error.");
-//			}
-//		}
-//	}
-//	alert(results[0]);
-//	return results;
-//}
+	var results = new Array();
+	for(var i in shopsPos){
+		if(typeof(i)=='string'){
+			 //parameter is shop name 
+			return shopInfo;
+		}else{
+			if(typeof(i)=='number'){
+				//parameter is shop coordinate
+				results.push(i);
+			}else{
+				alert("no data input or source error.");
+			}
+		}
+	}
+	return results;
+}
 
 function calDistance(lat1, lon1, lat2, lon2){
 	/*
@@ -190,6 +193,7 @@ function calDistance(lat1, lon1, lat2, lon2){
 	
 	var lambda = L, lambdaP, iterLimit = 100;
 	
+	//keep calculate for correct until lambda converge
 	do{
 		var sinLambda = Math.sin(lambda), cosLambda = Math.cos(lambda);
 		var sinSigma = Math.sqrt((cosU2*sinLambda) * (cosU2*sinLambda) + 
@@ -224,6 +228,13 @@ function calDistance(lat1, lon1, lat2, lon2){
 	 var fwdAz = Math.atan2(cosU2*sinLambda,  cosU1*sinU2-sinU1*cosU2*cosLambda);
 	 var revAz = Math.atan2(cosU1*sinLambda, -sinU1*cosU2+cosU1*sinU2*cosLambda);
 	 return { distance: s, initialBearing: fwdAz.toDeg(), finalBearing: revAz.toDeg() };
+}
+
+function assert(condition,message){
+	//my assertion
+	if(!condition){
+		throw message || "assertion failed";
+	}
 }
 
 
