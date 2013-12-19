@@ -181,6 +181,9 @@ function calDistance(lat1, lon1, lat2, lon2){
      *ref : http://www.movable-type.co.uk/scripts/latlong-vincenty.html
 	 */
 	// WGS-84 ellipsoid params
+	
+	assert(typeof(lat1+lon1+lat2+lon2)!=number,"input error");
+	
 	var a = 6378137;
 	var b = 6356752.314245;
 	var f = 1/298.257223563;
@@ -230,9 +233,22 @@ function calDistance(lat1, lon1, lat2, lon2){
 	 return { distance: s, initialBearing: fwdAz.toDeg(), finalBearing: revAz.toDeg() };
 }
 
+function codeAddress(address){
+	/*
+	 * translate address to coordinate
+	 */
+	geocoder.geocode({'address'} : address),function(results,status){
+		if(status==google.maps.GeocoderStatus.OK){
+			return results[0].geometry.location;
+		}
+	}else{
+		assert(true,"no data out");
+	}
+}
+
 function assert(condition,message){
 	//my assertion
-	if(!condition){
+	if(condition){
 		throw message || "assertion failed";
 	}
 }
