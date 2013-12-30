@@ -6,6 +6,17 @@ function loadScript(src){
 	document.body.appendChild(script);
 }
 
+function insertTag(parentId,type,content,number){
+	//parser(content);
+	var element = document.createElement(type);
+	var leaf = document.createTextNode(content);
+	element.appendChild(content);
+	
+	for(var i=0;i<=number;i++){
+		document.getElementById(parentId).appendChild(element);
+	}
+}
+
 function isChinese(input){
 	//check Chinese
 	var regx = /[^\u4e00-\u9fa5]/;
@@ -24,4 +35,10 @@ function parser(){
 		result[i] = arguments.split(',')[i];
 	}
 	return result;
+}
+
+function assert(condition,message){
+	if(!condition){
+		throw message || "assertion failed";
+	}
 }
