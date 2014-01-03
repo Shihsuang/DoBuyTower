@@ -1,2 +1,12 @@
 body {background-color: AFD6FF;}
 .address-zone {margin-left: 3em;}
+.NameOfSelect {font-family: arial;}
+.NameOfSelect {font-size:20px;}
+
+.select{position: relative;
+		left: 40%;
+		right: 60%;
+		
+	
+  		
+  		}

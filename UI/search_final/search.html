@@ -20,16 +20,15 @@
 	</header>
 
 	<section>
-		
-		地區
-		<select id="location" onchange="address(this)" >
+	<span class="table">	
+		<span class="NameOfSelect select">地區</span>
+		<select class="select" id="location" onchange="address(this)" >
 			<option>"請選擇"</option>
 			<option value="1">500公尺內</option>
 			<option value="2">1000公尺內</option>
 			<option value="3">1500公尺內</option>
 			<option value="4">2000公尺內</option>
 			<option value="5">以地址搜尋</option>
-
 		</select>
 
 		<span id="addr" style="width:100%" ;margin:0 auto;>
@@ -37,8 +36,8 @@
 		
 		</br>
 
-		分類
-		<select id="class" >
+		<span class="NameOfSelect select">分類</span>
+		<select class="select" id="class" >
 			<option>"請選擇"</option>
 			<option>飯</option>
 			<option>麵</option>
@@ -46,20 +45,22 @@
 			<option>火鍋</option>
 		</select>
 		</br>
-		星等
+
+		<span class="NameOfSelect select">星等</span>
+		<span class="select">
 		<input  type="image"  name="star1"  id="star1"  img  src="starselect.png" width="20" height="20" onClick="starsend(1)" ></input>
 		<input  type="image"  name="star2"  id="star2"  img  src="star.png" width="20" height="20" onClick="starsend(2)" ></input>
 		<input  type="image"  name="star3"  id="star3"  img  src="star.png" width="20" height="20" onClick="starsend(3)" ></input>
 		<input  type="image"  name="star4"  id="star4"  img  src="star.png" width="20" height="20" onClick="starsend(4)" ></input>
 		<input  type="image"  name="star5"  id="star5"  img  src="star.png" width="20" height="20" onClick="starsend(5)" ></input>
-		
-
+		</span>
+	</span>
 		
 	</section>
 
 
-<img src="house.png" width=50 height=50 align=right>
-<img src="find.png" width=50 height=50 align=right>
+<img id="home" src="house.png" width=50 height=50 align=right >
+<img id="find" src="find.png" width=50 height=50 align=right>
 
 </body>
 
