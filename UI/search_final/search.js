@@ -25,7 +25,8 @@ function address(sel)
 
 
 		add.innerHTML+="</br>"+
-		"<div style=\"margin-left:3em;\" class=\"address-zone\">"+
+		"<link rel=\"stylesheet\" href=\"search.css\" >"+
+		"<div class=\"address-zone\">"+
         "縣市<select class=\"city\"><option value=\"\">請選擇</option></select></br>"+
         "區域<select class=\"county\"><option value=\"\">請選擇</option></select></br>"+
         "路名<input type=\"text\"></input></div>";
@@ -63,10 +64,3 @@ function starsend(x)
 
 
 
-function county(sel)
-{
-	if(sel.options[sel.selectedIndex].value=='7')
-	{
-		alert("haha");
-	}
-}
