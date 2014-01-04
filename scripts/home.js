@@ -19,18 +19,28 @@ for (originalType in mouseEventTypes) {
 /************************************************/
 /**************window load function**************/
 var windowonload = function (){
-	var frame = document.getElementById("frame");
+	var frame1 = document.getElementById("frame1");
+	var frame2 = document.getElementById("frame2");
+	//var playpic = document.getElementByID("pic");
 	var eLock = document.getElementById("lock");
 	var eBtn = eLock.getElementsByTagName("spane")[0];
 	var pBtn = eLock.getElementsByTagName("spanp")[0];	
 	eBtn.style.left = 50+"%";
-	var pleft = eBtn.offsetLeft - eBtn.offsetWidth;
-	var eleft = eBtn.offsetLeft;
+	//var pleft = eBtn.offsetLeft - eBtn.offsetWidth;
+	var pleft = frame2.offsetLeft - frame2.offsetWidth;
+	//var eleft = eBtn.offsetLeft;
+	var eleft = frame2.offsetLeft;
+	
+	frame2.style.left = eleft+"px";
+	frame1.style.left = 0+"%";
 	pBtn.style.left = pleft+"px";
-	eleft = eBtn.offsetLeft;
-	pleft = pBtn.offsetLeft;
+	//eleft = eBtn.offsetLeft;
+	eleft = frame2.offsetLeft;
+	//pleft = pBtn.offsetLeft;
+	pleft = frame1.offsetLeft
 	var disX = 0;
-	var maxL = frame.clientWidth-eBtn.offsetWidth-20;
+	//var maxL = frame2.offsetLeft+frame2.offsetLeft-eBtn.offsetWidth-20;
+	var maxL = frame2.offsetLeft+frame2.offsetLeft-20;
 	var min;
 	var max;
 	/****************touch start*****************/
@@ -41,15 +51,18 @@ var windowonload = function (){
 		document.onmousemove = function (e){
 			var e = e || window.event;
 			var l = e.clientX - disX;
-			min = Btn==eBtn? eleft:20;
-			max = Btn==eBtn? maxL:pleft;
+			min = Btn==frame2? eleft:20-Btn.offsetWidth;
+			max = Btn==frame2? maxL+eBtn.offsetWidth-20:pleft;
 			l < min && (l = min);
-			l > max && (l = max);			
+			l > max && (l = max);
+			Btn == frame2? frame2.style.left = l+"px" : frame1.style.left = l-frame1.offsetWidth+eBtn.offsetWidth+"px";
 			Btn.style.left = l + "px";	
-			if(Btn == eBtn && Btn.offsetLeft == max)
-				window.location = "eat.html";
-			else if(Btn == pBtn && Btnn.offsetLeft == min)
-				window.locattioin = "play.html";
+			if(Btn == frame2 && Btn.offsetLeft == max){
+				//$.mobile.loadPage( "eat.html" );
+				$.mobile.changePage( "eat.html", { transition: "slide", changeHash: true});
+			}
+			if(Btn == frame1 && Btn.offsetLeft == min)
+				$.mobile.changePage( "play.html", { transition: "slide", changeHash: true , reverse: "true"});//window.location = "play.html";
 			return false;
 		};
 		document.onmouseup = function (){
@@ -57,19 +70,19 @@ var windowonload = function (){
 			document.onmouseup = null;
 			Btn.releaseCapture && Btn.releaseCapture();
 			
-			Btn == eBtn? Btn.offsetLeft > max-25?
+			Btn == frame2? Btn.offsetLeft > max-25?
 				startMove(max, function (){
-					window.location = "eat.html";
+					$.mobile.changePage( "eat.html", { transition: "slide", changeHash: true});
 				},Btn) : startMove(min,0,Btn) : 
-				Btn.offsetLeft < 45?startMove(20, function (){
-					window.location = "play.html";
-				},pBtn) : startMove(pleft,0,pBtn)
+				Btn.offsetLeft < min+20?startMove(20-Btn.offsetWidth, function (){
+					$.mobile.changePage( "play.html", { transition: "slide", changeHash: true ,reverse: "true"});
+				},Btn) : startMove(max,0,Btn)
 		};
 		Btn.setCapture && Btn.setCapture();
 		return false
 	}
-	eBtn.onmousedown = right;
-	pBtn.onmousedown = right;
+	frame1.onmousedown = right;
+	frame2.onmousedown = right;
 	/*********move btn to target place **********/
 	function startMove (iTarget, onEnd, Btn){
 		clearInterval(Btn.timer);
@@ -82,6 +95,7 @@ var windowonload = function (){
 		var iSpeed = (iTarget - Btn.offsetLeft) / 5;
 		iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
 		iTarget == Btn.offsetLeft ? (clearInterval(Btn.timer), onEnd && onEnd()) : Btn.style.left = iSpeed + Btn.offsetLeft + "px"
+		Btn == frame2 ? frame2.style.left = Btn.offsetLeft+"px" : frame1.style.left = Btn.offsetLeft-frame1.offsetWidth+Btn.offsetWidth+"px";
 	}
 };
 window.onresize = windowonload;
