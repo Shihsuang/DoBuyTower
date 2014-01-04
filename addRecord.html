@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>MDN Web apps template</title>
+	
+	<!--[if le IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="scripts/respond.js"></script>
+    <![endif]-->
+
+    <!-- The following two elements pull in the styles for the default template functionality  -->
+
+	<link href="styles/normalize.css" rel="stylesheet" type="text/css">
+	
+	<!-- Below is your custom application stylesheet -->
+	
+	<link href="styles/app.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+	<link href="styles/addRecord.css" rel="stylesheet" type="text/css">
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+	
+</head>
+<body>
+    
+	<div class="pic_picker"><img src="images/new.png" /></div>
+    <div>
+	    <div class="col-head text-center"><label for="name">名稱</label></div>
+		<div class="col-body-short"><input data-mini="true" type="text" id="name" /></div>
+	</div>
+	<div>
+	    <div class="col-head text-center"><label for="date">日期</label></div>
+		<div class="col-body-short"><input data-mini="true" type="date" id="date" /></div>
+	</div>
+	<div class="row">
+	    <div class="col-head text-center"><label for="name">地點</label></div>
+		<div class="col-body"><input data-mini="true" type="text" id="name" /></div>
+	</div>
+	<div class="row">
+	    <div class="col-head text-center"><label for="name">分類</label></div>
+		<div class="col-body"><input data-mini="true" type="text" id="name" /></div>
+	</div>
+	<div class="row">
+	    <div class="col-head text-center"><label for="name">星等</label></div>
+		<div class="col-body"><input data-mini="true" type="text" id="name" /></div>
+	</div>
+	<div class="row">
+	    <label for="comment">評價</label>
+		<textarea data-mini="true" id="comment"></textarea>
+	</div>
+    <div class="ui-grid-a">
+	    <div class="ui-block-a"><button class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-check">上傳</button></div>
+		<div class="ui-block-b"><button class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-delete">取消</button></div>
+	</div>
+
+
+</body>
+</html>

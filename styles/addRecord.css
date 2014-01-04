@@ -1,0 +1,33 @@
+.pic_picker{
+    float:right;
+}
+
+img{
+    width:80px;
+	height:80px;
+}
+.row{
+    clear:both;
+}
+.col-head{
+    float:left;
+	width:50px;
+
+}
+.col-body{
+    float:left;
+	width:80%;
+}
+
+.col-body-short{
+    float:left;
+	width:55%;
+}
+
+.text-center{
+	height:43px;
+	line-height:43px;
+	font-size:16px;
+	vertical-align: middle;
+	
+}
