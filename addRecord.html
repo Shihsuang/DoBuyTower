@@ -21,11 +21,16 @@
 	<link href="styles/addRecord.css" rel="stylesheet" type="text/css">
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
+	<script src="scripts/aj-address.js"></script>
+	<script src="scripts/location_module.js"></script>
+	<script src="scripts/record_module.js"></script>
 	
 </head>
 <body>
-    
-	<div class="pic_picker"><img src="images/new.png" /></div>
+
+<div id="page1" data-role="page">
+  <div data-role="content">    
+	<div class="pic-picker"><img id="pic-selected" src="images/camera.png" onclick="initGallery();"/></div>
     <div>
 	    <div class="col-head text-center"><label for="name">名稱</label></div>
 		<div class="col-body-short"><input data-mini="true" type="text" id="name" /></div>
@@ -35,16 +40,36 @@
 		<div class="col-body-short"><input data-mini="true" type="date" id="date" /></div>
 	</div>
 	<div class="row">
-	    <div class="col-head text-center"><label for="name">地點</label></div>
-		<div class="col-body"><input data-mini="true" type="text" id="name" /></div>
+	    <div class="col-head text-center"><label>地點</label></div>
+		<div class="col-body-medium">
+		    <input disabled="disabled" data-mini="true" id="location" value="" type="text">
+		</div>
+		<div class="col">
+		    <a id="get-location" onclick="getLocation();" class="ui-btn ui-icon-location ui-btn-icon-notext ui-corner-all"></a>
+		</div>
 	</div>
 	<div class="row">
-	    <div class="col-head text-center"><label for="name">分類</label></div>
-		<div class="col-body"><input data-mini="true" type="text" id="name" /></div>
+	    <div class="col-head text-center"><label>分類</label></div>
+		<div class="col-body">
+		  <select id="class" data-mini="true">
+			<option>請選擇</option>
+			<option>飯</option>
+			<option>麵</option>
+			<option>牛排</option>
+			<option>火鍋</option>
+		  </select>
+		</div>
 	</div>
 	<div class="row">
-	    <div class="col-head text-center"><label for="name">星等</label></div>
-		<div class="col-body"><input data-mini="true" type="text" id="name" /></div>
+	    <div class="col-head text-center"><label>星等</label></div>
+		<div class="col-body">
+		    <input type="hidden" id="score" value="1" />
+		    <img class="star" id="star1" src="images/starselect.png" onClick="starsend(1)" />
+		    <img class="star" id="star2" src="images/star.png" onClick="starsend(2)" />
+			<img class="star" id="star3" src="images/star.png" onClick="starsend(3)" />
+			<img class="star" id="star4" src="images/star.png" onClick="starsend(4)" />
+			<img class="star" id="star5" src="images/star.png" onClick="starsend(5)" />
+		</div>
 	</div>
 	<div class="row">
 	    <label for="comment">評價</label>
@@ -54,7 +79,36 @@
 	    <div class="ui-block-a"><button class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-check">上傳</button></div>
 		<div class="ui-block-b"><button class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-delete">取消</button></div>
 	</div>
+  </div>
+</div>
 
+<div id="page2" data-role="page" data-close-btn="none">
+    <div data-role="header" data-theme='b'>
+      <h1>輸入地址</h1>
+    </div>
+    <div data-role="content" data-theme='c'>
+        <div class="address-zone">
+			<select class="city" id="city" data-mini="true"><option value="">請選擇縣市</option></select>
+			<select class="county" id="county" data-mini="true"><option value="">請選擇區域</option></select>
+			<input type="text" id="road" placeholder="請輸入路名" data-mini="true" />
+		</div>
+		<div class="ui-grid-a">
+            <div class="ui-block-a"><a href="#page1" id="set-location" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-check" onclick="return setAddress();">確定</a></div>
+			<div class="ui-block-b"><a href="#page1" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-delete">取消</a></div>
+		</div>
+    </div>
+</div>
+
+<div id="page3" data-role="page">
+    <div data-role="header" data-theme='b' data-add-back-btn="true" data-rel="back">
+      <h1>請選擇相片</h1>
+    </div>
+    <div data-role="content" data-theme='c'>
+        <div class="row" id="gallery">
+		    <input type="hidden" id="selected-pic" />
+		</div>
+    </div>
+</div>
 
 </body>
 </html>

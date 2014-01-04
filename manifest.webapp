@@ -37,6 +37,9 @@
     },
     "storage":{
       "description": "Required to make Network calls" 
-    }
+    },
+	"device-storage:pictures":{ 
+	  "access": "readwrite" 
+	}
   }
 }

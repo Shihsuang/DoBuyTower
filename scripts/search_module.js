@@ -15,7 +15,6 @@ function getPosition(callbackOnSuccess, callbackOnError){
     } else {
         alert("Geolocation Not Support");
     }
-	
 } 
 
 /*SearchCondition 

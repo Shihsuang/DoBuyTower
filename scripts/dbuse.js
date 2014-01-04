@@ -44,7 +44,7 @@ myStorage.indexedDB.searchRestaurants = function(condition, onSuccess){
 		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_ONLY);
 		var store = trans.objectStore("restaurant");
 		
-		function distance(lat1,lon1,lat2,lon2) {
+		/*function distance(lat1,lon1,lat2,lon2) {
 		  var R = 6378137; // m (change this constant to get miles)
 		  var dLat = (lat2-lat1) * Math.PI / 180;
 		  var dLon = (lon2-lon1) * Math.PI / 180;
@@ -54,7 +54,7 @@ myStorage.indexedDB.searchRestaurants = function(condition, onSuccess){
 		  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 		  var d = R * c;
 		  return d;
-		}
+		}*/
 		
 		var result = new Array();
 		var index = 1;
