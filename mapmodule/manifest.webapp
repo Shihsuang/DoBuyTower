@@ -1,7 +1,17 @@
 {
-"name":"inmap",
-"description": "Get Now Time",
-"launch_path": "/index.html",
-"developer": { "name": "red", "email": "redbutbray@gmail.com" },
-"default_locale": "en"
+  "version": "0.1",
+  "name": "test",
+  "type": "privileged",
+  "description": "test",
+  "launch_path": "/index.html",
+  "developer": {
+    "name": "StackMob",
+    "url": "http://www.stackmob.com"
+  },
+  "permissions": {
+    "geolocation": {
+      "description": "Needed to tell the user where they are"
+    }
+  },
+  "default_locale": "en"
 }
