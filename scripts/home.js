@@ -21,81 +21,70 @@ for (originalType in mouseEventTypes) {
 var windowonload = function (){
 	var frame1 = document.getElementById("frame1");
 	var frame2 = document.getElementById("frame2");
-	//var playpic = document.getElementByID("pic");
-	var eLock = document.getElementById("lock");
-	var eBtn = eLock.getElementsByTagName("spane")[0];
-	var pBtn = eLock.getElementsByTagName("spanp")[0];	
-	eBtn.style.left = 50+"%";
-	//var pleft = eBtn.offsetLeft - eBtn.offsetWidth;
+	frame2.style.left = 50+"%";
 	var pleft = frame2.offsetLeft - frame2.offsetWidth;
-	//var eleft = eBtn.offsetLeft;
 	var eleft = frame2.offsetLeft;
-	
-	frame2.style.left = eleft+"px";
+	//frame2.style.left = eleft+"px";
 	frame1.style.left = 0+"%";
-	pBtn.style.left = pleft+"px";
-	//eleft = eBtn.offsetLeft;
 	eleft = frame2.offsetLeft;
-	//pleft = pBtn.offsetLeft;
 	pleft = frame1.offsetLeft
 	var disX = 0;
-	//var maxL = frame2.offsetLeft+frame2.offsetLeft-eBtn.offsetWidth-20;
-	var maxL = frame2.offsetLeft+frame2.offsetLeft-20;
+	var maxL = frame2.offsetLeft+frame2.offsetWidth;
 	var min;
 	var max;
 	/****************touch start*****************/
 	function right(e){
-		var Btn = document.elementFromPoint(e.clientX, e.clientY);
+		var Frame = document.elementFromPoint(e.clientX, e.clientY);
 		var e = e || window.event;
-		disX = e.clientX - Btn.offsetLeft;	
+		disX = e.clientX - Frame.offsetLeft;	
 		document.onmousemove = function (e){
 			var e = e || window.event;
 			var l = e.clientX - disX;
-			min = Btn==frame2? eleft:20-Btn.offsetWidth;
-			max = Btn==frame2? maxL+eBtn.offsetWidth-20:pleft;
+			min = Frame==frame2? eleft:25-Frame.offsetWidth;
+			max = Frame==frame2? maxL-25:pleft;
 			l < min && (l = min);
 			l > max && (l = max);
-			Btn == frame2? frame2.style.left = l+"px" : frame1.style.left = l-frame1.offsetWidth+eBtn.offsetWidth+"px";
-			Btn.style.left = l + "px";	
-			if(Btn == frame2 && Btn.offsetLeft == max){
+			Frame == frame2? frame2.style.left = l+"px" : frame1.style.left = l-frame1.offsetWidth+Frame.offsetWidth+"px";
+			Frame.style.left = l + "px";	
+			if(Frame == frame2 && Frame.offsetLeft == max){
 				//$.mobile.loadPage( "eat.html" );
 				$.mobile.changePage( "eat.html", { transition: "slide", changeHash: true});
 			}
-			if(Btn == frame1 && Btn.offsetLeft == min)
+			if(Frame == frame1 && Frame.offsetLeft == min)
 				$.mobile.changePage( "play.html", { transition: "slide", changeHash: true , reverse: "true"});//window.location = "play.html";
 			return false;
 		};
 		document.onmouseup = function (){
 			document.onmousemove = null;
 			document.onmouseup = null;
-			Btn.releaseCapture && Btn.releaseCapture();
+			Frame.releaseCapture && Frame.releaseCapture();
 			
-			Btn == frame2? Btn.offsetLeft > max-25?
+			Frame == frame2? Frame.offsetLeft > max-25?
 				startMove(max, function (){
 					$.mobile.changePage( "eat.html", { transition: "slide", changeHash: true});
-				},Btn) : startMove(min,0,Btn) : 
-				Btn.offsetLeft < min+20?startMove(20-Btn.offsetWidth, function (){
+				},Frame) : startMove(min,0,Frame) : 
+				Frame.offsetLeft < min+25?startMove(min, function (){
 					$.mobile.changePage( "play.html", { transition: "slide", changeHash: true ,reverse: "true"});
-				},Btn) : startMove(max,0,Btn)
+				},Frame) : startMove(max,0,Frame)
 		};
-		Btn.setCapture && Btn.setCapture();
+		Frame.setCapture && Frame.setCapture();
 		return false
 	}
 	frame1.onmousedown = right;
 	frame2.onmousedown = right;
-	/*********move btn to target place **********/
-	function startMove (iTarget, onEnd, Btn){
-		clearInterval(Btn.timer);
-		Btn.timer = setInterval(function (){
-			doMove(iTarget, onEnd, Btn)
+	/*********move Frame to target place **********/
+	function startMove (iTarget, onEnd, Frame){
+		clearInterval(Frame.timer);
+		Frame.timer = setInterval(function (){
+			doMove(iTarget, onEnd, Frame)
 		}, 30)
 	}
 	/*******gradually move to target place*******/
-	function doMove (iTarget, onEnd, Btn){
-		var iSpeed = (iTarget - Btn.offsetLeft) / 5;
+	function doMove (iTarget, onEnd, Frame){
+		var iSpeed = (iTarget - Frame.offsetLeft) / 5;
 		iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
-		iTarget == Btn.offsetLeft ? (clearInterval(Btn.timer), onEnd && onEnd()) : Btn.style.left = iSpeed + Btn.offsetLeft + "px"
-		Btn == frame2 ? frame2.style.left = Btn.offsetLeft+"px" : frame1.style.left = Btn.offsetLeft-frame1.offsetWidth+Btn.offsetWidth+"px";
+		iTarget == Frame.offsetLeft ? (clearInterval(Frame.timer), onEnd && onEnd()) : Frame.style.left = iSpeed + Frame.offsetLeft + "px"
+		Frame == frame2 ? frame2.style.left = Frame.offsetLeft+"px" : frame1.style.left = Frame.offsetLeft-frame1.offsetWidth+Frame.offsetWidth+"px";
 	}
 };
 window.onresize = windowonload;
