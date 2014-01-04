@@ -8,7 +8,7 @@
  *  calculate the distance or depend on the distance which we specify to show the shop
  */
 
-//test data
+/*//test data
 var restaurants = [
     {
 	    id:1,
@@ -43,7 +43,7 @@ var restaurants = [
 var shop1 = restaurants[0];
 var shop2 = restaurants[1];
 //end test data
-
+*/
 
 var map;
 var locationData;
@@ -94,6 +94,9 @@ function init(){
 	 }else{
 		// Browser doesn't support Geolocation
 		 handleNoGeolocation(false);
+	 }
+	 if(arguments!=null){
+		 shopMarker(arguments);
 	 }
 }
 
