@@ -27,6 +27,15 @@ function isChinese(input){
 	}
 }
 
+function in_array(target, array) {
+	for (var s = 0; s < array.length; s++) {
+		target = array[s].toString();
+		if (target == stringToSearch) {
+			return s;
+		}
+	}
+	return false;
+}
 function parser(){
 	//analyze the data input is xml or json or pure txt
 	//then paser into array
