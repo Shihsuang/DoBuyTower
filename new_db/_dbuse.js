@@ -1,45 +1,33 @@
 /**
  * 
  */
-var myStorage = {};
+
+function myStorage(){
+
+/*
+* define myStorage prototype method list
+*/
+this.prototype.conn = conn;
+this.prototype.closeDB = closeDB;
+this.prototype.createObjectStore = createObjectStore;
+this.prototype.delCollect = 
+this.prototype.insertData = insertData;
+this.prototype.updateRes = updateRes;
+this.prototype.delData = delData;
+
+this.prototype.find = find;
+
+//this.prototype.deleteDB = deleteDB;
+}
 
 var request;
-var db = null;
+var db;
 
 var collect_restStore;
 var collect_commStore;
 
 /*var trans;*/
 var modify_request;
-
-/*myStorage.indexedDB.conn = conn;
-myStorage.indexedDB.onerror;
-myStorage.indexedDB.createCollect = createCollect;
-myStorage.indexedDB.delCollect = delCollect;
-myStorage.indexedDB.insertData = insertData;
-myStorage.indexedDB.updateRes = updateRes;
-myStorage.indexedDB.delData = delData;
-
-myStorage.indexedDB.find = find;
-
-myStorage.indexedDB.deleteDB =deleteDB;
-
-*/
-
-/*
- * define myStorage method list
- */
-myStorage.conn = conn;
-myStorage.closeDB = closeDB;
-myStorage.createObjectStore = createObjectStore;
-myStorage.delCollect = delCollect;
-myStorage.insertData = insertData;
-myStorage.updateRes = updateRes;
-myStorage.delData = delData;
-
-myStorage.find = find;
-
-myStorage.deleteDB =deleteDB;
 
 /*
  * function
@@ -54,7 +42,8 @@ function conn (){
 	
 	request.onsuccess = function(event) {
 		console.log("database open success:" + request.result);
-		db = request.target.tresult;
+/*		db = request.target.tresult;*/
+		db = request.result;
 	};
 	request.onupgradeneeded = function(event) {
 		createObjectStore(event.target.result);
@@ -142,7 +131,7 @@ function insertData(collectName,data){
 	
 	assert(db=null,"connect first");
 	
-	var trans = db.transaction([collectName],myStorage.IDBTransactionModes.READ_WRITE);
+	var trans = db.transaction([collectName],IDBTransactionModes.READ_WRITE);
 	var store = trans.objectStore(collectName);
 	var resData = {
 			"name": data.name,
@@ -175,7 +164,7 @@ function insertData(collectName,data){
 //
 function updateRes(id,newText){
 	
-	var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_WRITE);
+	var trans = db.transaction(["restaurant"], IDBTransactionModes.READ_WRITE);
 	var store = trans.objectStore("restaurant");
 	var openCursorReq = store.openCursor(IDBKeyRange.only(id));
 	
@@ -209,7 +198,7 @@ function updateRes(id,newText){
 
 function delData(collectName,id){
 
-	var trans = db.transaction([collectName], myStorage.IDBTransactionModes.READ_WRITE);
+	var trans = db.transaction([collectName], IDBTransactionModes.READ_WRITE);
 	var store = trans.objectStore(collectName);
 	modify_request = store.delete(id);
 
@@ -227,7 +216,7 @@ function delData(collectName,id){
 //condition is a type : address or name , that's not a really address : 台灣省....etc
 function find(collectName,condition,random){
 	
-    var trans = db.transaction([collectName], myStorage.IDBTransactionModes.READ_ONLY);
+    var trans = db.transaction([collectName], IDBTransactionModes.READ_ONLY);
     var store = trans.objectStore(collectName);
     var index;
     
