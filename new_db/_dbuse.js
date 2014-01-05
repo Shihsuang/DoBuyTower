@@ -2,7 +2,6 @@
  * 
  */
 var myStorage = {};
-myStorage.indexedDB = {};
 
 var request;
 var db = null;
@@ -10,35 +9,62 @@ var db = null;
 var collect_restStore;
 var collect_commStore;
 
-var trans;
+/*var trans;*/
 var modify_request;
 
-myStorage.indexedDB.conn = conn;
-/*myStorage.indexedDB.onerror;*/
-myStorage.indexedDB.onsuccess;
+/*myStorage.indexedDB.conn = conn;
+myStorage.indexedDB.onerror;
 myStorage.indexedDB.createCollect = createCollect;
 myStorage.indexedDB.delCollect = delCollect;
 myStorage.indexedDB.insertData = insertData;
 myStorage.indexedDB.updateRes = updateRes;
 myStorage.indexedDB.delData = delData;
 
-myStorage.indexedDB.find;
+myStorage.indexedDB.find = find;
 
-myStorage.indexedDB.deleteDB;
+myStorage.indexedDB.deleteDB =deleteDB;
 
-/*request.onsuccess = function(e){
-	e.target.result.close();
-//	db=request.result;
-};
+*/
 
-request.onerror = function(e){
-	console.log(e);
-};*/
+/*
+ * define myStorage method list
+ */
+myStorage.conn = conn;
+myStorage.createCollect = createCollect;
+myStorage.delCollect = delCollect;
+myStorage.insertData = insertData;
+myStorage.updateRes = updateRes;
+myStorage.delData = delData;
 
+myStorage.find = find;
+
+myStorage.deleteDB =deleteDB;
+
+/*
+ * function
+ */
+
+
+//connect fucntion and extra all common event like : onsuccess,onerror,onupgradeneeded
 function conn (){
-	request = indexedDB.open("eatplay");
 	
-/*	//normal manipulate in database 
+	var indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
+	var request = indexedDB.open("eatplay");
+	
+	request.onsuccess = function(event) {
+		console.log("database open success:" + request.result);
+		db = request.target.tresult;
+	};
+	request.onupgradeneeded = function(event) {
+		createObjectStore(event.target.result);
+	};
+	request.onerror = function(event) {
+		console.log("database open error:" + request.errorCode);
+	};
+	
+
+/* //original
+   //normal manipulate in database 
 	request.onsuccess = function(e){
 		db = e.target.result;
 	};
@@ -49,181 +75,199 @@ function conn (){
 	}*/
 }
 
-//modirfy ,sotre or update the database version
+//close db
+function closeDB() {
+	var dbName = db.name;
+	if (db) {
+		var request = db.close();
+		console.log("database:" + dbName + " is closed.");
+	}
+}
+
+//modify ,store or update the database version
 function createCollect(collectName){
 	
-	request.onupgradeneeded = function(e){
-		if(db.objectStoreNames.contains(collectName)){
-			alert("this collection already exist");
+	if(db.objectStoreNames.contains(collectName)){
+		alert("this collection already exist");
+	}else{
+		if(collectName=="restaurant"){
+			restStore = db.createObjectStore(collectName, { keyPath: "id", autoIncrement : true });
+			restStore.createIndex("condition", ["position.latitude", "position.longitude", "category"]);
+			objectStore.createIndex("id", "id", {
+				unique : true
+			});
+			objectStore.createIndex("name", "name", {
+				unique : true
+			});
+		}else if(collectName=="comments"){
+			commStore = db.createObjectStore(collectName, { keyPath: "id", autoIncrement : true });
+			commStore.createIndex("condition", ["restaurantId", "date", "score"]);
+			objectStore.createIndex("id", "id", {
+				unique : true
+			});
 		}else{
-			if(collectName=="restaurant"){
-				restStore = db.createObjectStore(collectName, { keyPath: "id", autoIncrement : true });
-				restStore.createIndex("condition", ["position.latitude", "position.longitude", "category"]);
-			}else if(collectName=="comments"){
-				commStore = db.createObjectStore(collectName, { keyPath: "id", autoIncrement : true });
-				commStore.createIndex("condition", ["restaurantId", "date", "score"]);
-			}else{
-				alert("error collection name");
-			}
+			alert("error collection name");
 		}
 	}
-	request.onsuccess = function(e) {
-		e.target.result.close();
-		//myStorage.indexedDB.getAllTodoItems();
-	};
-
-	request.onerror = myStorage.indexedDB.onerror;
 }
 
+//delete collection
 function delCollect(collectName){
 	
-	request.onupgradeneeded = function(e){
-		db = e.target.result;
-		if(db.objectStoreNames.contains(collectName)){
-			db.deleteObjectStore(collectName);
-		}else{
-			alert("collect not exist or unknown error");
-		}
-	};
-	
-	request.onsuccess = function(e) {
-		e.target.result.close();
-		//myStorage.indexedDB.getAllTodoItems();
-	};
-
-	request.onerror = myStorage.indexedDB.onerror;
+	if(db.objectStoreNames.contains(collectName)){
+		db.deleteObjectStore(collectName);
+	}else{
+		alert("collect not exist or unknown error");
+	}
 }
 
+//insert data into specify collection
 function insertData(collectName,data){
 	
 	assert(db=null,"connect first");
 	
-	request.onsucess = function(e){
-		trans = db.transaction([collectName],myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore(collectName);
-		var resData = {
-				"name": restaurantData.name,
-				"position": {"latitude":restaurantData.position.latitude,"longitude":restaurantData.position.longitude},
-				"category": restaurantData.category,
-				"phone": restaurantData.phone,
-				"address": restaurantData.address,
-				"city": restaurantData.city,
-		};
-		var comData = {
-				"restaurantId":commentsData.restaurantId,
-				"date":commentsData.date, 
-				"score":commentsData.score, 
-				"comment":commentsData.comment, 
-				"pictures":commentsData.pictures
-		};
-		if(collectName=="restaurant"){
-			modify_request = store.put(resData);
-		}else if(collectName=="comments"){
-			modify_request = store.put(comData);
-		}
-		trans.oncomplete = function(e){
-			db.close();
-		};
-		request.onerror = function(e) {
-			console.log("Error Adding: ", e);
-		};
+	var trans = db.transaction([collectName],myStorage.IDBTransactionModes.READ_WRITE);
+	var store = trans.objectStore(collectName);
+	var resData = {
+			"name": data.name,
+			"position": {"latitude":data.position.latitude,"longitude":data.position.longitude},
+			"category": data.category,
+			"phone": data.phone,
+			"address": data.address,
+			"city": data.city,
 	};
-	request.onerror = myStorage.indexedDB.onerror;
+	var comData = {
+			"restaurantId":data.restaurantId,
+			"date":data.date, 
+			"score":data.score, 
+			"comment":data.comment, 
+			"pictures":data.pictures
+	};
+	if(collectName=="restaurant"){
+		modify_request = store.put(resData);
+	}else if(collectName=="comments"){
+		modify_request = store.put(comData);
+	}
+	modify_request.oncomplete = function(e){
+		db.close();
+	};
+	modify_request.onerror = function(e) {
+		console.log("Error Adding: ", e);
+	};
 }
 
-function updateRes(){
+//
+function updateRes(id,newText){
 	
-	request.onsucess = function(e){
-		db = e.target.result;
-		trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore("restaurant");
-		var openCursorReq = store.openCursor(IDBKeyRange.only(id));
+	var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_WRITE);
+	var store = trans.objectStore("restaurant");
+	var openCursorReq = store.openCursor(IDBKeyRange.only(id));
+	
+	openCursorReq.onsuccess = function (event) {
+		var cursor = event.target.result;
+		var _object = cursor.value;
 		
-		openCursorReq.onsuccess = function (event) {
-			var cursor = event.target.result;
-			var _object = cursor.value;
-			
-			_object.name = newText.name;
-			_object.position.latitude=newText.position.latitude;
-			_object.position.longitude=newText.position.longitude;
-			_object.catagory=newText.catagory;
-			_object.phone=newText.phone;
-			_object.address=newText.address;			
-			
-			var updateRequest = cursor.update(_object);
-			updateRequest.onerror = updateRequest.onblocked = function () {
-				console.log('Error updating');
-			};
-
-			updateRequest.onsuccess = function (event) {
-				clearInput();
-			};
-			
-			trans.oncomplete = function(e) {
-				db.close();
-				//myStorage.indexedDB.getAllTodoItems();
-			};
+		_object.name = newText.name;
+		_object.position.latitude=newText.position.latitude;
+		_object.position.longitude=newText.position.longitude;
+		_object.catagory=newText.catagory;
+		_object.phone=newText.phone;
+		_object.address=newText.address;			
+		
+		var updateRequest = cursor.update(_object);
+		updateRequest.onerror = updateRequest.onblocked = function () {
+			console.log('Error updating');
 		};
-	};
-	request.onerror = myStorage.indexedDB.onerror;
-}
 
-function delData(collectName,id){
-	
-	request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction([collectName], myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore(collectName);
-		var request = store.delete(id);
-
+		updateRequest.onsuccess = function (event) {
+			clearInput();
+		};
+		
 		trans.oncomplete = function(e) {
 			db.close();
 		};
-
-		request.onerror = function(e) {
-			console.log("Error Adding: ", e);
-		};
 	};
-	request.onerror = myStorage.indexedDB.onerror;
+	
 }
 
-function find(collectName,condition){
+
+function delData(collectName,id){
+
+	var trans = db.transaction([collectName], myStorage.IDBTransactionModes.READ_WRITE);
+	var store = trans.objectStore(collectName);
+	modify_request = store.delete(id);
+
+	modify_request.oncomplete = function(e) {
+		db.close();
+		obj.disabled = true;
+	};
+
+	modify_request.onerror = function(e) {
+		console.log("Error Adding: ", e);
+	};
+}
+
+//not finished yet : basci condition pass in and return json array
+//condition is a type : address or name , that's not a really address : 台灣省....etc
+function find(collectName,condition,random){
 	
-	var request = indexedDB.open("eatplay");
-    request.onsuccess = function(e) {
-            var db = e.target.result;
-            var trans = db.transaction([collectName], myStorage.IDBTransactionModes.READ_ONLY);
-            var store = trans.objectStore(collectName);
-
-            var request = store.get(id);
-
-            request.onsuccess = function(e) {
-                    onSuccess(e.target.result);
-            };
-            
-            trans.oncomplete = function(e) {
-                    db.close();
-            };
-
-            request.onerror = function(e) {
-                    console.log("Error Getting: ", e);
-            };
+    var trans = db.transaction([collectName], myStorage.IDBTransactionModes.READ_ONLY);
+    var store = trans.objectStore(collectName);
+    var index;
+    
+    var d_return = function(dataset,random){
+    	if(random){
+    		var maxNum = (dataset.length-1);  
+    		var minNum = 0;
+    		var n = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+    		return dataset[n];
+    	}else{
+    		return dataset;
+    	}
     };
-    request.onerror = myStorage.indexedDB.onerror;
-	
+    
+    if(condition.address){
+    	index = store.index("address");
+    	modify_request = store.get(condition.address);
+        return d_return(modify_request,random);
+    }else if(condition.name){
+    	index = store.index("name");
+    	modify_request = store.get(condition.name);
+        return d_return(modify_request,random);
+    }else if(condition.category){
+    	index = store.index("category");
+    	modify_request = store.get(condition.category);
+        return d_return(modify_request,random);
+    }else if(condition.score){
+    	index = store.index("score");
+    	modify_request = store.get(condition.score);
+        return d_return(modify_request,random);
+    }
+    
+/*           request.onsuccess = function(e) {
+            onSuccess(e.target.result);
+    };
+    
+    trans.oncomplete = function(e) {
+            db.close();
+    };
+
+    request.onerror = function(e) {
+            console.log("Error Getting: ", e);
+    };*/
 }
 
-function deleteDB(){
+/*function deleteDB(){
 	
 	var deleteRequest = indexedDB.deleteDatabase("eatplay");
     deleteRequest.onsuccess = function (e)
     {
 		alert("deleted");
-		myStorage.indexedDB.create();
+		myStorage.create();
     }
 	deleteRequest.onblocked = function (e)
     {
 		alert("blocked");
     }
 	deleteRequest.onerror = myStorage.indexedDB.onerror;
-}
+}*/
