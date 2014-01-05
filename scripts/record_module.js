@@ -19,7 +19,7 @@ function starsend(x)
 	if(x>=4)star4.src="images/starselect.png";
 	if(x>=5)star5.src="images/starselect.png";
 	$("#score").val(x);
-	alert($("#score").val());
+	//alert($("#score").val());
 }
 
 function getLocation(){
@@ -47,8 +47,8 @@ function setAddress(){
 }
 
 function parsePosition(latitude, longitude){
-
-    alert(latitude + ", " + longitude );
+    $("#location").val("(" + latitude + "," + longitude + ")");
+    //alert(latitude + ", " + longitude );
 }
 
 function initGallery(){
