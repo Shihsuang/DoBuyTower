@@ -4,11 +4,12 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>search</title>
 	<link rel="stylesheet" href="search.css" type="text/css" >
-	
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>
 	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	<script src="search.js"></script>
 	<script src="aj-address.js" type="text/javascript"></script>
-	
 </head>
 
 
@@ -16,61 +17,71 @@
 
 <body>
 	<header>
-		<h1>Search for the restaurant</h1>
+		<h1 class="title">Search for the restaurant</h1>
 	</header>
 
 	<section>
-	<span class="table">	
-		<span class="NameOfSelect select">地區</span>
-		<select class="select" id="location" onchange="address(this)" >
-			<option>"請選擇"</option>
-			<option value="1">500公尺內</option>
-			<option value="2">1000公尺內</option>
-			<option value="3">1500公尺內</option>
-			<option value="4">2000公尺內</option>
-			<option value="5">以地址搜尋</option>
-		</select>
 
+		
+		
+		<div class="row">
+	    	<div class="col-head text-center"><label>地區</label></div>
+			<div class="col-body">
+				<select class="select"  onchange="address(this)" data-mini="true" >
+					<option>"請選擇"</option>
+					<option value="1">500公尺內</option>
+					<option value="2">1000公尺內</option>
+					<option value="3">1500公尺內</option>
+					<option value="4">2000公尺內</option>
+					<option value="5">以地址搜尋</option>
+				</select>
+			</div>
+		</div>
+			
+		
+		
+		
 		<span id="addr" style="width:100%" ;margin:0 auto;>
 		</span>
 		
-		</br>
+		
+		
+		<div class="row">
+	    	<div class="col-head text-center"><label>分類</label></div>
+				<div class="col-body">
+					<select id="class"  data-mini="true" >
+						<option>"請選擇"</option>
+						<option>飯</option>
+						<option>麵</option>
+						<option>牛排</option>
+						<option>火鍋</option>
+					</select>
+				</div>
+			</div>
+		
+	
+		<div class="row">
+		    <div class="col-head text-center"><label>星等</label></div>
+			<div class="col-body">
+			    <input type="hidden" id="score" value="1" />
+			    <img class="star" id="star1" src="starselect.png" onClick="starsend(1)" />
+			    <img class="star" id="star2" src="star.png" onClick="starsend(2)" />
+				<img class="star" id="star3" src="star.png" onClick="starsend(3)" />
+				<img class="star" id="star4" src="star.png" onClick="starsend(4)" />
+				<img class="star" id="star5" src="star.png" onClick="starsend(5)" />
+			</div>
+		</div>
 
-		<span class="NameOfSelect select">分類</span>
-		<select class="select" id="class" >
-			<option>"請選擇"</option>
-			<option>飯</option>
-			<option>麵</option>
-			<option>牛排</option>
-			<option>火鍋</option>
-		</select>
-		</br>
-
-		<span class="NameOfSelect select">星等</span>
-		<span class="select">
-		<input  type="image"  name="star1"  id="star1"  img  src="starselect.png" width="20" height="20" onClick="starsend(1)" ></input>
-		<input  type="image"  name="star2"  id="star2"  img  src="star.png" width="20" height="20" onClick="starsend(2)" ></input>
-		<input  type="image"  name="star3"  id="star3"  img  src="star.png" width="20" height="20" onClick="starsend(3)" ></input>
-		<input  type="image"  name="star4"  id="star4"  img  src="star.png" width="20" height="20" onClick="starsend(4)" ></input>
-		<input  type="image"  name="star5"  id="star5"  img  src="star.png" width="20" height="20" onClick="starsend(5)" ></input>
-		</span>
-	</span>
+		
 		
 	</section>
 
-
-<img id="home" src="house.png" width=50 height=50 align=right >
-<img id="find" src="find.png" width=50 height=50 align=right>
-
+	<div class="picture">
+		
+		<img  id="find" src="find.png" width=50 height=50>
+		<img  id="home" src="house.png" width=50 height=50 >
+	</div>
 </body>
-
-
-
-
-
-
-
-
 
 
 
