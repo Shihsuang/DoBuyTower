@@ -30,7 +30,8 @@ myStorage.indexedDB.deleteDB =deleteDB;
  * define myStorage method list
  */
 myStorage.conn = conn;
-myStorage.createCollect = createCollect;
+myStorage.closeDB = closeDB;
+myStorage.createObjectStore = createObjectStore;
 myStorage.delCollect = delCollect;
 myStorage.insertData = insertData;
 myStorage.updateRes = updateRes;
@@ -85,10 +86,10 @@ function closeDB() {
 }
 
 //modify ,store or update the database version
-function createCollect(collectName){
+function createObjectStore(db){
 	
-	if(db.objectStoreNames.contains(collectName)){
-		alert("this collection already exist");
+/*	if(db.objectStoreNames.contains("restaurant")){
+		alert("restaurant already exist");
 	}else{
 		if(collectName=="restaurant"){
 			restStore = db.createObjectStore(collectName, { keyPath: "id", autoIncrement : true });
@@ -108,7 +109,22 @@ function createCollect(collectName){
 		}else{
 			alert("error collection name");
 		}
+	}*/
+	if(db.objectStoreNames.contains("restaurant")) {
+		var storeReq = db.deleteObjectStore("restaurant");
 	}
+	var restStore = db.createObjectStore("restaurant", { keyPath: "id", autoIncrement : true });
+	restStore.createIndex("condition", ["position.latitude", "position.longitude", "category"]);
+	/*if (db.objectStoreNames.contains("category")) {
+		var storeReq = db.deleteObjectStore("category");
+	}
+	db.createObjectStore("category", { keyPath: "id", autoIncrement : true });*/
+	
+	if (db.objectStoreNames.contains("comments")) {
+		var storeReq = db.deleteObjectStore("comments");
+	}
+	var commStore = db.createObjectStore("comments", { keyPath: "id", autoIncrement : true });
+	commStore.createIndex("condition", ["restaurantId", "date", "score"]);
 }
 
 //delete collection
