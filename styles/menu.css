@@ -138,8 +138,8 @@ html, body {
 
 /* Selected state */
 
-#top_menu > [role="tab"][aria-selected="true"] > a,
-#top_menu > [role="tab"] > a:active {
+#top_menu > [role="tab"][aria-selected="true"] > a/*,
+#top_menu > [role="tab"] > a:active*/ {
   background-color: #008aaa;
 }
 

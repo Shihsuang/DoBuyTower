@@ -4,19 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>nagging-menu-DEMO</title>
 <link rel="stylesheet" href="styles/menu.css" type="text/css" media="screen" />
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"type="text/javascript"></script>
+<script type="text/javascript" src = "jquery/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"type="text/javascript"></script>
 <script type="text/javascript" src="scripts/inmap.js"></script>
 <script type="text/javascript" src="scripts/pub_module.js"></script>
-<script src = "scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="scripts/menu.js"></script>
 </head>
 <body>
+
 <script>
 
 
 window.onload = init;
 
 function init(){
-	initTab("top_menu");
+	//initTab("top_menu");
 	initTab("menu");
 }
 
@@ -37,13 +39,15 @@ function initTab(tagId){
 <div id="map"></div>
 <div>
 <ul role="tablist" class="bottom" data-items="4" id="top_menu">
-   <li id="side_menu" role="tab"><a href=""  data-l10n-id=""><img src="images/list.png" width="33" height="33"></a></li>
+   <li id="mode" role="tab"><a onclick="switchMode()"  data-l10n-id=""><img src="images/man.png" width="33" height="33"></a></li>
    <li id="search" role="tab"><a href="" ><img src="images/find.png" width="33" height="33"></a></li>
    <li id="random" role="tab"><a href="" ><img src="images/random.png"width="33" height="33"></a></li>
    <li id="add" role="tab"><a href="addRecord.html" ><img src="images/add.png" width="33" height="33"></a></li>
 </ul>
 </div>
-
+<script>
+    loadMode();
+</script>
 <div>
 <ul role="tablist" class="bottom" data-items="3" id="menu">
    <li id="list-tab" role="tab" ><a href="eat.html"  data-l10n-id=""><img src="images/list.png" width="30" height="33"></a></li>

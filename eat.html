@@ -14,15 +14,16 @@
 <body bgcolor="black">
 <link rel="stylesheet" href="styles/menu.css" type="text/css" media="screen" />
 <!--<script src = "scripts/jquery-1.8.3.min.js"></script>-->
-<script src="jquery/jquery-1.10.2.min.js"></script>
-<script src = "scripts/lists.js"></script>
+<script type="text/javascript" src="jquery/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src ="scripts/lists.js"></script>
+<script type="text/javascript" src="scripts/menu.js"></script>
 <script>
 
 
 window.onload = init;
 
 function init(){
-	initTab("top_menu");
+	//initTab("top_menu");
 	initTab("menu");
 }
 
@@ -42,11 +43,14 @@ function initTab(tagId){
 </script>
 
 <ul role="tablist" class="bottom" data-items="4" id="top_menu">
-   <li id="side_menu" role="tab"><a href=""  data-l10n-id=""><img src="images/list.png" width="33" height="33"></a></li>
+   <li id="mode" role="tab"><a onclick="switchMode()" data-l10n-id=""><img src="images/man.png" width="33" height="33"></a></li>
    <li id="search" role="tab"><a href="" ><img src="images/find.png" width="33" height="33"></a></li>
    <li id="random" role="tab"><a href="" ><img src="images/random.png"width="33" height="33"></a></li>
    <li id="add" role="tab"><a href="addRecord.html" ><img src="images/add.png" width="33" height="33"></a></li>
 </ul>
+<script>
+    loadMode();
+</script>
 <div id="lists"></div>
 <script>
 		var a = ["ar1","ar2","ar3","ar4","ar5","ar6","ar7","ar8","ar9","ar10"];
@@ -57,7 +61,6 @@ function initTab(tagId){
    <li id="home-tab" role="tab"><a href="main.html"  data-l10n-id=""><img src="images/home.png" width="60" height="33"></a></li>
    <li id="map-tab" role="tab"><a href="map.html"  data-l10n-id=""><img src="images/map.png" width="30" height="33"></a></li>
 </ul>
-
 </body>
 </html>
 
