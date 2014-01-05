@@ -1,6 +1,17 @@
+/* author - 101522074 黃士軒
+ * 
+ * 此檔案為操作記錄的模組，以及負責addRecord.html的頁面效果
+ * 
+ */
+
+
 //初始化地址選擇器
 $(function () {$('.address-zone').ajaddress();});
 
+/*
+ * 選擇星星效果
+ * x - 第x個星星被按到
+ */
 function starsend(x)
 {
 	var star1 = document.getElementById("star1");
@@ -22,11 +33,13 @@ function starsend(x)
 	//alert($("#score").val());
 }
 
+//取得目前經緯度坐標
 function getLocation(){
 
     LocationModule.getPosition(parsePosition, showAddressSelector);
 }
 
+//show出選擇地址的dialog
 function showAddressSelector(){
     $.mobile.changePage('#page2',{
 	    transition: "pop",
@@ -34,6 +47,7 @@ function showAddressSelector(){
 	});
 }
 
+//當選擇地址的dialog按送出後，將使用者輸入的地址顯示在頁面上
 function setAddress(){
     if(!$("#city").val() || !$("#county").val() || !$("#road").val()){
 	   alert("請填寫所有欄位");
@@ -46,15 +60,18 @@ function setAddress(){
     return true;
 }
 
+//將GPS的經緯度坐標位置顯示在頁面上
 function parsePosition(latitude, longitude){
     $("#location").val("(" + latitude + "," + longitude + ")");
     //alert(latitude + ", " + longitude );
 }
 
+//初始化照片選擇頁面
 function initGallery(){
 
     $('#gallery').html("");
 
+    //讀取本機中所有照片
 	var files = navigator.getDeviceStorage("pictures");
 	var cursor = files.enumerate();
 	
@@ -86,6 +103,7 @@ function initGallery(){
 		}
 	}
 	
+	//顯示照片選擇頁面
 	$.mobile.changePage('#page3',{
 	    transition: "pop"
 	});

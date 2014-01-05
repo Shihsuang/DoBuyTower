@@ -1,5 +1,11 @@
+/* author 101522074 黃士軒
+ * 此檔案負責選單的操作
+ */
 
-
+/* 讀取目前的模式，並更新選單的圖示
+ * mode = 1 : 我的（單人資料來源）
+ * mode = 2 : 我們的（多人資料來源）
+ */
 function loadMode(){
 
 	var mode = localStorage["mode"];
@@ -15,6 +21,9 @@ function loadMode(){
 
 }
 
+/* 
+ * 切換目前的模式，1 => 2, 2 => 1
+ */
 function switchMode(){
 
     //alert("123");
