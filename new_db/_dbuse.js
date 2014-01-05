@@ -7,6 +7,7 @@ function myStorage(){
 /*
 * define myStorage prototype method list
 */
+
 this.prototype.conn = conn;
 this.prototype.closeDB = closeDB;
 this.prototype.createObjectStore = createObjectStore;
