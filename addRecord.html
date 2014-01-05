@@ -30,21 +30,21 @@
 	<script src="scripts/location_module.js"></script>
 	<script src="scripts/record_module.js"></script>
 
-<div id="page1" data-role="page">
+<div id="page1" data-role="page" data-theme="b">
   <div data-role="content">    
 	<div class="pic-picker"><img id="pic-selected" src="images/camera.png" onclick="initGallery();"/></div>
     <div>
 	    <div class="col-head text-center"><label for="name">名稱</label></div>
-		<div class="col-body-short"><input data-mini="true" type="text" id="name" /></div>
+		<div class="col-body-short"><input data-mini="true" data-theme="c" type="text" id="name" /></div>
 	</div>
 	<div>
 	    <div class="col-head text-center"><label for="date">日期</label></div>
-		<div class="col-body-short"><input data-mini="true" type="date" id="date" /></div>
+		<div class="col-body-short"><input data-mini="true" data-theme="c" type="date" id="date" /></div>
 	</div>
 	<div class="row">
 	    <div class="col-head text-center"><label>地點</label></div>
 		<div class="col-body-medium">
-		    <input disabled="disabled" data-mini="true" id="location" value="" type="text">
+		    <input disabled="disabled" data-mini="true" data-theme="c" id="location" value="" type="text">
 		</div>
 		<div class="col">
 		    <a id="get-location" onclick="getLocation();" class="ui-btn ui-icon-location ui-btn-icon-notext ui-corner-all"></a>
@@ -53,7 +53,7 @@
 	<div class="row">
 	    <div class="col-head text-center"><label>分類</label></div>
 		<div class="col-body">
-		  <select id="category" data-mini="true">
+		  <select id="category" data-mini="true" data-theme="c" >
 			<option>請選擇</option>
 			<option>飯</option>
 			<option>麵</option>
@@ -75,7 +75,7 @@
 	</div>
 	<div class="row">
 	    <label for="comment">評價</label>
-		<textarea data-mini="true" id="comment"></textarea>
+		<textarea data-mini="true" data-theme="c" id="comment"></textarea>
 	</div>
     <div class="ui-grid-a">
 	    <div class="ui-block-a"><a class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-check">上傳</a></div>
@@ -84,15 +84,15 @@
   </div>
 </div>
 
-<div id="page2" data-role="page" data-close-btn="none">
+<div id="page2" data-role="page" data-close-btn="none" data-theme="b">
     <div data-role="header" data-theme='b'>
       <h1>輸入地址</h1>
     </div>
     <div data-role="content" data-theme='c'>
         <div class="address-zone">
-			<select class="city" id="city" data-mini="true"><option value="">請選擇縣市</option></select>
-			<select class="county" id="county" data-mini="true"><option value="">請選擇區域</option></select>
-			<input type="text" id="road" placeholder="請輸入路名" data-mini="true" />
+			<select class="city" id="city" data-theme="c" data-mini="true"><option value="">請選擇縣市</option></select>
+			<select class="county" id="county" data-theme="c" data-mini="true"><option value="">請選擇區域</option></select>
+			<input type="text" id="road" placeholder="請輸入路名" data-theme="c" data-mini="true" />
 		</div>
 		<div class="ui-grid-a">
             <div class="ui-block-a"><a href="#page1" id="set-location" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-check" onclick="return setAddress();">確定</a></div>
@@ -101,7 +101,7 @@
     </div>
 </div>
 
-<div id="page3" data-role="page">
+<div id="page3" data-role="page" data-theme="b">
     <div data-role="header" data-theme='b' data-add-back-btn="true" data-rel="back">
       <h1>請選擇相片</h1>
     </div>

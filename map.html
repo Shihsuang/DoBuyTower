@@ -3,10 +3,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>nagging-menu-DEMO</title>
-<link rel="stylesheet" href="menu.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="styles/menu.css" type="text/css" media="screen" />
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"type="text/javascript"></script>
-<script type="text/javascript" src="inmap.js"></script>
-<script src = "jquery.min.js"></script>
+<script type="text/javascript" src="scripts/inmap.js"></script>
+<script type="text/javascript" src="scripts/pub_module.js"></script>
+<script src = "scripts/jquery-1.10.2.min.js"></script>
 </head>
 <body>
 <script>
@@ -33,21 +34,22 @@ function initTab(tagId){
 }
 
 </script>
-
-
-<ul role="tablist" class="bottom" data-items="4" id="top_menu">
-   <li id="side_menu" role="tab"><a href=""  data-l10n-id=""><img src="list.png" width="30" height="30"></a></li>
-   <li id="search" role="tab"><a href="" ><img src="find.png" width="30" height="30"></a></li>
-   <li id="random" role="tab"><a href="" ><img src="random.png"width="30" height="30"></a></li>
-   <li id="add" role="tab"><a href="" ><img src="add.png" width="30" height="30"></a></li>
-</ul>
-
 <div id="map"></div>
-
-<ul role="tablist" class="bottom" data-items="3" id="menu">
-   <li id="map-tab" role="tab" aria-selected="true"><a href=""  data-l10n-id=""><img src="list.png" width="30" height="30"></a></li>
-   <li id="home-tab" role="tab"><a href=""  data-l10n-id=""><img src="home.png" width="60" height="30"></a></li>
-   <li id="list-tab" role="tab"><a href=""  data-l10n-id=""><img src="map.png" width="30" height="30"></a></li>
+<div>
+<ul role="tablist" class="bottom" data-items="4" id="top_menu">
+   <li id="side_menu" role="tab"><a href=""  data-l10n-id=""><img src="images/list.png" width="33" height="33"></a></li>
+   <li id="search" role="tab"><a href="" ><img src="images/find.png" width="33" height="33"></a></li>
+   <li id="random" role="tab"><a href="" ><img src="images/random.png"width="33" height="33"></a></li>
+   <li id="add" role="tab"><a href="addRecord.html" ><img src="images/add.png" width="33" height="33"></a></li>
 </ul>
+</div>
+
+<div>
+<ul role="tablist" class="bottom" data-items="3" id="menu">
+   <li id="list-tab" role="tab" ><a href="eat.html"  data-l10n-id=""><img src="images/list.png" width="30" height="33"></a></li>
+   <li id="home-tab" role="tab"><a href="main.html"  data-l10n-id=""><img src="images/home.png" width="60" height="33"></a></li>
+   <li id="map-tab" role="tab" aria-selected="true"><a href=""  data-l10n-id=""><img src="images/map.png" width="30" height="33"></a></li>
+</ul>
+</div>
 </body>
 </html>
