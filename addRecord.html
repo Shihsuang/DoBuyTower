@@ -31,6 +31,10 @@
 	<script src="scripts/record_module.js"></script>
 
 <div id="page1" data-role="page" data-theme="b">
+  <div data-role="header" data-theme='b'>
+  	  <a onclick="history.back()" data-icon="carat-l">Back</a>
+      <h1>新增紀錄</h1>
+  </div>
   <div data-role="content">    
 	<div class="pic-picker"><img id="pic-selected" src="images/camera.png" onclick="initGallery();"/></div>
     <div>
@@ -77,9 +81,10 @@
 	    <label for="comment">評價</label>
 		<textarea data-mini="true" data-theme="c" id="comment"></textarea>
 	</div>
-    <div class="ui-grid-a">
-	    <div class="ui-block-a"><a class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-check">上傳</a></div>
-		<div class="ui-block-b"><a onclick="window.location='eat.html'" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-delete">取消</a></div>
+    <div class="ui-grid-b">
+    	<div class="ui-block-a"></div>
+	    <div class="ui-block-b"><a class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-check">上傳</a></div>
+		<!--<div class="ui-block-b"><a onclick="window.location='eat.html'" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-delete">取消</a></div>-->
 	</div>
   </div>
 </div>

@@ -1,4 +1,7 @@
-body {background-color:#AFD6FF;}
+body {
+    color:white;
+	background-color:black;
+}
 
 .row{
     clear:both;
@@ -31,6 +34,7 @@ img.star{
 
 .picture{
 	position: absolute;
-	right:0px;
+	text-align: center;
+	width:100%;
 	bottom: 0px;
 }
