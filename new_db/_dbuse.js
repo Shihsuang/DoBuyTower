@@ -15,7 +15,7 @@ this.prototype.insertData = insertData;
 this.prototype.updateRes = updateRes;
 this.prototype.delData = delData;
 
-this.prototype.find = find;
+this.prototype.findData = findData;
 
 //this.prototype.deleteDB = deleteDB;
 }
@@ -214,7 +214,7 @@ function delData(collectName,id){
 
 //not finished yet : basci condition pass in and return json array
 //condition is a type : address or name , that's not a really address : 台灣省....etc
-function find(collectName,condition,random){
+function findData(collectName,condition,random){
 	
     var trans = db.transaction([collectName], IDBTransactionModes.READ_ONLY);
     var store = trans.objectStore(collectName);
