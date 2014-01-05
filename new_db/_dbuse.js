@@ -11,7 +11,7 @@ function myStorage(){
 this.prototype.conn = conn;
 this.prototype.closeDB = closeDB;
 this.prototype.createObjectStore = createObjectStore;
-this.prototype.delCollect = 
+this.prototype.delCollect = delCollect;
 this.prototype.insertData = insertData;
 this.prototype.updateRes = updateRes;
 this.prototype.delData = delData;
