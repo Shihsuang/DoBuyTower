@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>nagging-menu-DEMO</title>
+<link rel="stylesheet" href="menu.css" type="text/css" media="screen" />
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"type="text/javascript"></script>
+<script type="text/javascript" src="inmap.js"></script>
+<script src = "jquery.min.js"></script>
+</head>
+<body>
+<script>
+
+
+window.onload = init;
+
+function init(){
+	initTab("top_menu");
+	initTab("menu");
+}
+
+function initTab(tagId){
+ 	var list = document.getElementById(tagId);
+	var tabs = list.getElementsByTagName("li");
+	for(var i=0; i<tabs.length; i++){
+		var tab = tabs[i];
+		tab.onclick = function effect(){
+			var temp = document.createAttribute("aria-selected");
+			temp.value = "true";
+			this.setAttributeNode(temp);
+		};
+	} 
+}
+
+</script>
+
+
+<ul role="tablist" class="bottom" data-items="4" id="top_menu">
+   <li id="side_menu" role="tab"><a href=""  data-l10n-id=""><img src="list.png" width="30" height="30"></a></li>
+   <li id="search" role="tab"><a href="" ><img src="find.png" width="30" height="30"></a></li>
+   <li id="random" role="tab"><a href="" ><img src="random.png"width="30" height="30"></a></li>
+   <li id="add" role="tab"><a href="" ><img src="add.png" width="30" height="30"></a></li>
+</ul>
+
+<div id="map"></div>
+
+<ul role="tablist" class="bottom" data-items="3" id="menu">
+   <li id="map-tab" role="tab" aria-selected="true"><a href=""  data-l10n-id=""><img src="list.png" width="30" height="30"></a></li>
+   <li id="home-tab" role="tab"><a href=""  data-l10n-id=""><img src="home.png" width="60" height="30"></a></li>
+   <li id="list-tab" role="tab"><a href=""  data-l10n-id=""><img src="map.png" width="30" height="30"></a></li>
+</ul>
+</body>
+</html>
