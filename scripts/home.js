@@ -22,6 +22,7 @@ var windowonload = function (){
 	var frame1 = document.getElementById("frame1");
 	var frame2 = document.getElementById("frame2");
 	frame2.style.left = 50+"%";
+	//alert("50%");
 	var pleft = frame2.offsetLeft - frame2.offsetWidth;
 	var eleft = frame2.offsetLeft;
 	//frame2.style.left = eleft+"px";
@@ -48,7 +49,15 @@ var windowonload = function (){
 			Frame.style.left = l + "px";	
 			if(Frame == frame2 && Frame.offsetLeft == max){
 				//$.mobile.loadPage( "eat.html" );
-				$.mobile.changePage( "eat.html", { transition: "slide", changeHash: true});
+				//$.mobile.changePage( "eat.html", { transition: "slide", changeHash: true});
+				$.mobile.pageContainer.pagecontainer("change", "eat.html", { transition: "slide", changeHash: true})
+				.on( "pagecontainershow", function( event, ui ) {
+					window.location = "eat.html";
+				});
+				/*$(document).on("pageshow","eat.html",function(){ // When entering pagetwo
+				  window.location = "eat.html";
+				});*/
+				
 			}
 			if(Frame == frame1 && Frame.offsetLeft == min)
 				$.mobile.changePage( "play.html", { transition: "slide", changeHash: true , reverse: "true"});//window.location = "play.html";
@@ -61,13 +70,28 @@ var windowonload = function (){
 			
 			Frame == frame2? Frame.offsetLeft > max-25?
 				startMove(max, function (){
-					$.mobile.changePage( "eat.html", { transition: "slide", changeHash: true});
+					//$.mobile.changePage( "eat.html", { transition: "slide", changeHash: true});
+				$.mobile.pageContainer.pagecontainer("change", "eat.html", { transition: "slide", changeHash: true})
+				.on( "pagecontainershow", function( event, ui ) {
+					window.location = "eat.html";
+				});
 				},Frame) : startMove(min,0,Frame) : 
 				Frame.offsetLeft < min+25?startMove(min, function (){
 					$.mobile.changePage( "play.html", { transition: "slide", changeHash: true ,reverse: "true"});
 				},Frame) : startMove(max,0,Frame)
 		};
-		Frame.setCapture && Frame.setCapture();
+		/*Frame.setCapture && Frame.setCapture();
+		frame2.style.left = 50+"%";
+		//alert("50%");
+		pleft = frame2.offsetLeft - frame2.offsetWidth;
+		eleft = frame2.offsetLeft;
+		//frame2.style.left = eleft+"px";
+		frame1.style.left = 0+"%";
+		eleft = frame2.offsetLeft;
+		pleft = frame1.offsetLeft
+		disX = 0;
+		maxL = frame2.offsetLeft+frame2.offsetWidth;
+		*/
 		return false
 	}
 	frame1.onmousedown = right;

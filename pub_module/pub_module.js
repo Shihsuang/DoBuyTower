@@ -27,6 +27,14 @@ function isChinese(input){
 	}
 }
 
+function is_array(v){
+ return !!v &&
+ typeof v === 'object' &&
+ typeof v.length === 'number' &&
+ typeof v.splice === 'function' &&
+ !(v.propertyIsEnumerable('length'));
+}
+
 function parser(){
 	//analyze the data input is xml or json or pure txt
 	//then paser into array

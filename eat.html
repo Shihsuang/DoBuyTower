@@ -8,12 +8,56 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <title>Eat</title>
-</head>
-<body>
 
-	<div><button onclick = "window.location = 'main.html'">back</button></div>
-	<!--<div><button onclick = "tran()">tran</button></div>
-	<div><button onclick = "window.location = 'shopinfo.html'">shopinfo</button></div>-->
+
+</head>
+<body bgcolor="black">
+<link rel="stylesheet" href="styles/menu.css" type="text/css" media="screen" />
+<!--<script src = "scripts/jquery-1.8.3.min.js"></script>-->
+<script src="jquery/jquery-1.10.2.min.js"></script>
+<script src = "scripts/lists.js"></script>
+<script>
+
+
+window.onload = init;
+
+function init(){
+	initTab("top_menu");
+	initTab("menu");
+}
+
+function initTab(tagId){
+ 	var list = document.getElementById(tagId);
+	var tabs = list.getElementsByTagName("li");
+	for(var i=0; i<tabs.length; i++){
+		var tab = tabs[i];
+		tab.onclick = function effect(){
+			var temp = document.createAttribute("aria-selected");
+			temp.value = "true";
+			this.setAttributeNode(temp);
+		};
+	} 
+}
+
+</script>
+
+<ul role="tablist" class="bottom" data-items="4" id="top_menu">
+   <li id="side_menu" role="tab"><a href=""  data-l10n-id=""><img src="images/list.png" width="30" height="30"></a></li>
+   <li id="search" role="tab"><a href="" ><img src="images/find.png" width="30" height="30"></a></li>
+   <li id="random" role="tab"><a href="" ><img src="images/random.png"width="30" height="30"></a></li>
+   <li id="add" role="tab"><a href="addRecord.html" ><img src="images/add.png" width="30" height="30"></a></li>
+</ul>
+<div id="lists"></div>
+<script>
+		var a = ["ar1","ar2","ar3","ar4","ar5","ar6","ar7","ar8","ar9","ar10"];
+		data(a);
+</script>
+<ul role="tablist" class="bottom" data-items="3" id="menu">
+   <li id="map-tab" role="tab" aria-selected="true"><a href=""  data-l10n-id=""><img src="images/list.png" width="30" height="30"></a></li>
+   <li id="home-tab" role="tab"><a href="main.html"  data-l10n-id=""><img src="images/home.png" width="60" height="30"></a></li>
+   <li id="list-tab" role="tab"><a href=""  data-l10n-id=""><img src="images/map.png" width="30" height="30"></a></li>
+</ul>
+
 </body>
 </html>
 
