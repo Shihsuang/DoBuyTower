@@ -187,20 +187,29 @@ function delData(collectName,id){
 	request.onerror = myStorage.indexedDB.onerror;
 }
 
-function find(collectNamem,condition){
+function find(collectName,condition){
 	
-	 request.onsuccess = function(e) {
-		 var db = e.target.result;
-		 var trans = db.transaction([collectName], myStorage.IDBTransactionModes.READ_ONLY);
-		 var store = trans.objectStore(colletName);
-		 var result = new Array();
-		 store.openCursor().onsuccess = function(event){
-			 var cursor = event.target.result;
-			 if (cursor) {
-				 
-			 }
-		 }
-	 }
+	var request = indexedDB.open("eatplay");
+    request.onsuccess = function(e) {
+            var db = e.target.result;
+            var trans = db.transaction([collectName], myStorage.IDBTransactionModes.READ_ONLY);
+            var store = trans.objectStore(collectName);
+
+            var request = store.get(id);
+
+            request.onsuccess = function(e) {
+                    onSuccess(e.target.result);
+            };
+            
+            trans.oncomplete = function(e) {
+                    db.close();
+            };
+
+            request.onerror = function(e) {
+                    console.log("Error Getting: ", e);
+            };
+    };
+    request.onerror = myStorage.indexedDB.onerror;
 	
 }
 
