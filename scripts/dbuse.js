@@ -1,362 +1,279 @@
-var myStorage = {};
-myStorage.indexedDB = {};
+/**
+ * 
+ */
 
-myStorage.indexedDB.onerror = function(e) {
-	console.log(e);
-};
+function myStorage(){
 
-myStorage.indexedDB.create = function() {
+/*
+* define myStorage prototype method list
+*/
+
+this.prototype.conn = conn;
+this.prototype.closeDB = closeDB;
+this.prototype.createObjectStore = createObjectStore;
+this.prototype.delCollect = delCollect;
+this.prototype.insertData = insertData;
+this.prototype.updateRes = updateRes;
+this.prototype.delData = delData;
+
+this.prototype.findData = findData;
+
+//this.prototype.deleteDB = deleteDB;
+}
+
+var request;
+var db;
+
+var collect_restStore;
+var collect_commStore;
+
+/*var trans;*/
+var modify_request;
+
+/*
+ * function
+ */
+
+
+//connect fucntion and extra all common event like : onsuccess,onerror,onupgradeneeded
+function conn (){
+	
+	var indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.msIndexedDB;
 	var request = indexedDB.open("eatplay");
-	request.onupgradeneeded = function (e) {
-	    alert("upgrade");
-		var db = e.target.result;
+	
+	request.onsuccess = function(event) {
+		console.log("database open success:" + request.result);
+/*		db = request.target.tresult;*/
+		db = request.result;
+	};
+	request.onupgradeneeded = function(event) {
+		createObjectStore(event.target.result);
+	};
+	request.onerror = function(event) {
+		console.log("database open error:" + request.errorCode);
+	};
+	
 
-		if (db.objectStoreNames.contains("restaurant")) {
-			var storeReq = db.deleteObjectStore("restaurant");
+/* //original
+   //normal manipulate in database 
+	request.onsuccess = function(e){
+		db = e.target.result;
+	};
+	
+	//onupgradeneeded allow update or delete the data base
+	request.onupgradeneeded = function(e){
+		db = e.target.result;
+	}*/
+}
+
+//close db
+function closeDB() {
+	var dbName = db.name;
+	if (db) {
+		var request = db.close();
+		console.log("database:" + dbName + " is closed.");
+	}
+}
+
+//modify ,store or update the database version
+function createObjectStore(db){
+	
+/*	if(db.objectStoreNames.contains("restaurant")){
+		alert("restaurant already exist");
+	}else{
+		if(collectName=="restaurant"){
+			restStore = db.createObjectStore(collectName, { keyPath: "id", autoIncrement : true });
+			restStore.createIndex("condition", ["position.latitude", "position.longitude", "category"]);
+			objectStore.createIndex("id", "id", {
+				unique : true
+			});
+			objectStore.createIndex("name", "name", {
+				unique : true
+			});
+		}else if(collectName=="comments"){
+			commStore = db.createObjectStore(collectName, { keyPath: "id", autoIncrement : true });
+			commStore.createIndex("condition", ["restaurantId", "date", "score"]);
+			objectStore.createIndex("id", "id", {
+				unique : true
+			});
+		}else{
+			alert("error collection name");
 		}
-		var restStore = db.createObjectStore("restaurant", { keyPath: "id", autoIncrement : true });
-		restStore.createIndex("condition", ["position.latitude", "position.longitude", "category"]);
-		/*if (db.objectStoreNames.contains("category")) {
-			var storeReq = db.deleteObjectStore("category");
-		}
-		db.createObjectStore("category", { keyPath: "id", autoIncrement : true });*/
-		
-		if (db.objectStoreNames.contains("comments")) {
-			var storeReq = db.deleteObjectStore("comments");
-		}
-		var commStore = db.createObjectStore("comments", { keyPath: "id", autoIncrement : true });
-		commStore.createIndex("condition", ["restaurantId", "date", "score"]);
+	}*/
+	if(db.objectStoreNames.contains("restaurant")) {
+		var storeReq = db.deleteObjectStore("restaurant");
+	}
+	var restStore = db.createObjectStore("restaurant", { keyPath: "id", autoIncrement : true });
+	restStore.createIndex("condition", ["position.latitude", "position.longitude", "category"]);
+	/*if (db.objectStoreNames.contains("category")) {
+		var storeReq = db.deleteObjectStore("category");
+	}
+	db.createObjectStore("category", { keyPath: "id", autoIncrement : true });*/
+	
+	if (db.objectStoreNames.contains("comments")) {
+		var storeReq = db.deleteObjectStore("comments");
+	}
+	var commStore = db.createObjectStore("comments", { keyPath: "id", autoIncrement : true });
+	commStore.createIndex("condition", ["restaurantId", "date", "score"]);
+}
+
+//delete collection
+function delCollect(collectName){
+	
+	if(db.objectStoreNames.contains(collectName)){
+		db.deleteObjectStore(collectName);
+	}else{
+		alert("collect not exist or unknown error");
+	}
+}
+
+//insert data into specify collection
+function insertData(collectName,data){
+	
+	assert(db=null,"connect first");
+	
+	var trans = db.transaction([collectName],IDBTransactionModes.READ_WRITE);
+	var store = trans.objectStore(collectName);
+	var resData = {
+			"name": data.name,
+			"position": {"latitude":data.position.latitude,"longitude":data.position.longitude},
+			"category": data.category,
+			"phone": data.phone,
+			"address": data.address,
+			"city": data.city,
 	};
-
-	request.onsuccess = function(e) {
-		e.target.result.close();
-		//myStorage.indexedDB.getAllTodoItems();
+	var comData = {
+			"restaurantId":data.restaurantId,
+			"date":data.date, 
+			"score":data.score, 
+			"comment":data.comment, 
+			"pictures":data.pictures
 	};
-
-	request.onerror = myStorage.indexedDB.onerror;
-};
-
-
-myStorage.indexedDB.searchRestaurants = function(condition, onSuccess){
-    var request = indexedDB.open("eatplay");
-    request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_ONLY);
-		var store = trans.objectStore("restaurant");
-		
-		/*function distance(lat1,lon1,lat2,lon2) {
-		  var R = 6378137; // m (change this constant to get miles)
-		  var dLat = (lat2-lat1) * Math.PI / 180;
-		  var dLon = (lon2-lon1) * Math.PI / 180;
-		  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-		  Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
-		  Math.sin(dLon/2) * Math.sin(dLon/2);
-		  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-		  var d = R * c;
-		  return d;
-		}*/
-		
-		var result = new Array();
-		var index = 1;
-		
-		store.openCursor().onsuccess = function(event){
-		  var cursor = event.target.result;
-		  if (cursor) {
-		    if(//distance(cursor.value.latitude, cursor.value.longitude, condition.latitude, condition.longitude) < condition.distance &&
-			   cursor.value.category == condition.category){// &&
-			   //cursor.value.score >= condition.score.min && cursor.value.score <= condition.score.max){
-		       
-			   if(index >= condition.page.min && index <= condition.page.max){
-			       result.push(cursor.value);
-			   }
-			   
-			   index++;
-			   //alert(index);
-			}
-			cursor.continue();
-		  }
-		  
-		  
-		}
-		
-    //    var index = store.index('searchCondition');
-	//	var boundKeyRange = IDBKeyRange.bound([condition.restaurantId, condition.date.min, condition.score.min], [condition.restaurantId, condition.date.max, condition.score.max]);
-		//alert('asdasdasd');
-	/*	index.openCursor(boundKeyRange).onsuccess = function(event) {
-		  alert('hiihihi');
-		  var cursor = event.target.result;
-		  var result = new Array();
-		  if (cursor) {
-		    alert(cursor.value);
-			result.push(cursor.value);
-			cursor.continue();
-		  }
-		};*/
-		trans.oncomplete = function(e){
-		    onSuccess(result);
-			db.close();
-		};
+	if(collectName=="restaurant"){
+		modify_request = store.put(resData);
+	}else if(collectName=="comments"){
+		modify_request = store.put(comData);
+	}
+	modify_request.oncomplete = function(e){
+		db.close();
 	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
+	modify_request.onerror = function(e) {
+		console.log("Error Adding: ", e);
+	};
+}
 
-myStorage.indexedDB.searchComments = function(condition, onSuccess){
-    var request = indexedDB.open("eatplay");
-    request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction(["comments"], myStorage.IDBTransactionModes.READ_ONLY);
-		var store = trans.objectStore("comments");
+//
+function updateRes(id,newText){
+	
+	var trans = db.transaction(["restaurant"], IDBTransactionModes.READ_WRITE);
+	var store = trans.objectStore("restaurant");
+	var openCursorReq = store.openCursor(IDBKeyRange.only(id));
+	
+	openCursorReq.onsuccess = function (event) {
+		var cursor = event.target.result;
+		var _object = cursor.value;
 		
-		var result = new Array();
-		store.openCursor().onsuccess = function(event){
-		  
-		  var cursor = event.target.result;
-		  if (cursor) {
-			
-			if(cursor.value.restaurantId == condition.restaurantId &&
-			   cursor.value.date >= condition.date.min && cursor.value.date <= condition.date.max &&
-			   cursor.value.score >= condition.score.min && cursor.value.score <= condition.score.max){
-			   //alert(JSON.stringify(cursor.value));
-			   result.push(cursor.value);
-			}
-			cursor.continue();
-		  }
-		  
-		}
-        /*var index = store.index('condition');
-		var boundKeyRange = IDBKeyRange.bound([condition.restaurantId, condition.date.min, condition.score.min], [condition.restaurantId, condition.date.max, condition.score.max]);
-		//alert('asdasdasd');
-		index.openCursor(boundKeyRange).onsuccess = function(event) {
-		  alert('hiihihi');
-		  var cursor = event.target.result;
-		  var result = new Array();
-		  if (cursor) {
-		    alert(JSON.stringify(cursor.value));
-			result.push(cursor.value);
-			cursor.continue();
-		  }
-		};*/
-		trans.oncomplete = function(e){
-		    onSuccess(result);
-			db.close();
-		};
-	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
-
-myStorage.indexedDB.addComments = function(commentsData) {
-	var request = indexedDB.open("eatplay");
-	request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction(["comments"], myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore("comments");
+		_object.name = newText.name;
+		_object.position.latitude=newText.position.latitude;
+		_object.position.longitude=newText.position.longitude;
+		_object.catagory=newText.catagory;
+		_object.phone=newText.phone;
+		_object.address=newText.address;			
 		
-		var data = {
-			"restaurantId":commentsData.restaurantId,
-			"date":commentsData.date, 
-			"score":commentsData.score, 
-			"comment":commentsData.comment, 
-			"pictures":commentsData.pictures
-		};
- 
-		var request = store.put(data);
-
-		trans.oncomplete = function(e){
-			db.close();
+		var updateRequest = cursor.update(_object);
+		updateRequest.onerror = updateRequest.onblocked = function () {
+			console.log('Error updating');
 		};
 
-		request.onerror = function(e) {
-			console.log("Error Adding: ", e);
-		};
-	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
-
-myStorage.indexedDB.deleteComments = function(id) {
-	var request = indexedDB.open("eatplay");
-	request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction(["comments"], myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore("comments");
-		var request = store.delete(id);
-
-		trans.oncomplete = function(e) {
-			db.close();
-		};
-
-		request.onerror = function(e) {
-			console.log("Error Adding: ", e);
-		};
-	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
-
-
-
-
-
-
-
-
-myStorage.indexedDB.addRestaurant = function(restaurantData) {
-	var request = indexedDB.open("eatplay");
-	request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore("restaurant");
-		
-		var data = {
-			"name": restaurantData.name,
-			"position": {"latitude":restaurantData.position.latitude,"longitude":restaurantData.position.longitude},
-			"category":restaurantData.category,
-			"phone":restaurantData.phone,
-			"address": restaurantData.address,
-		};
- 
-		var request = store.put(data);
-
-		trans.oncomplete = function(e){
-		//myStorage.indexedDB.getAllTodoItems();
-			db.close();
-		};
-
-		request.onerror = function(e) {
-			console.log("Error Adding: ", e);
-		};
-	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
-
-myStorage.indexedDB.deleteRestaurant = function(id) {
-	var request = indexedDB.open("eatplay");
-	request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore("restaurant");
-		var request = store.delete(id);
-
-		trans.oncomplete = function(e) {
-			db.close();
-			//myStorage.indexedDB.getAllTodoItems();
-		};
-
-		request.onerror = function(e) {
-			console.log("Error Adding: ", e);
-		};
-	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
-
-
-
-
-myStorage.indexedDB.getRestaurant = function(id,onSuccess) {
-	var request = indexedDB.open("eatplay");
-	request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_ONLY);
-		var store = trans.objectStore("restaurant");
-
-		var request = store.get(id);
-
-		request.onsuccess = function(e) {
-			onSuccess(e.target.result);
+		updateRequest.onsuccess = function (event) {
+			clearInput();
 		};
 		
 		trans.oncomplete = function(e) {
 			db.close();
 		};
-
-		request.onerror = function(e) {
-			console.log("Error Getting: ", e);
-		};
 	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
+	
+}
 
-myStorage.indexedDB.updateRestaurant = function(id, newText) {
-	var request = indexedDB.open("eatplay");
-	request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore("restaurant");
-		
-		var openCursorReq = store.openCursor(IDBKeyRange.only(id));
-		openCursorReq.onsuccess = function (event) {
-			var cursor = event.target.result;
-			var _object = cursor.value;
-			
-			_object.name = newText.name;
-			_object.position.latitude=newText.position.latitude;
-			_object.position.longitude=newText.position.longitude;
-			_object.catagory=newText.catagory;
-			_object.phone=newText.phone;
-			_object.address=newText.address;			
-			
-			var updateRequest = cursor.update(_object);
-			updateRequest.onerror = updateRequest.onblocked = function () {
-				console.log('Error updating');
-			};
 
-			updateRequest.onsuccess = function (event) {
-				clearInput();
-			};
-			
-			trans.oncomplete = function(e) {
-				db.close();
-				//myStorage.indexedDB.getAllTodoItems();
-			};
-		}
+function delData(collectName,id){
+
+	var trans = db.transaction([collectName], IDBTransactionModes.READ_WRITE);
+	var store = trans.objectStore(collectName);
+	modify_request = store.delete(id);
+
+	modify_request.oncomplete = function(e) {
+		db.close();
+		obj.disabled = true;
 	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
 
-myStorage.indexedDB.getAllTodoItems = function() {
-	var request = indexedDB.open("eatplay");
-	request.onsuccess = function(e) {
-		//var todos = document.getElementById("todoItems");
-		//todos.innerHTML = "";
-
-		var db = e.target.result;		
-		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore("restaurant");
-
-		// Get everything in the store;
-		var keyRange = IDBKeyRange.lowerBound(0);
-		var cursorRequest = store.openCursor(keyRange);
-
-		cursorRequest.onsuccess = function(e) {
-			var result = e.target.result;
-			if(!!result == false){
-				return;
-			}
-		
-			//renderTodo(result.value);
-			result.continue();
-		};
-		
-		trans.oncomplete = function(e) {
-			db.close();
-		};
-
-		//showDetails("");
-		cursorRequest.onerror = myStorage.indexedDB.onerror;
+	modify_request.onerror = function(e) {
+		console.log("Error Adding: ", e);
 	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
+}
 
-myStorage.indexedDB.deleteDB = function (){
+//not finished yet : basci condition pass in and return json array
+//condition is a type : address or name , that's not a really address : 台灣省....etc
+function findData(collectName,condition,random){
+	
+    var trans = db.transaction([collectName], IDBTransactionModes.READ_ONLY);
+    var store = trans.objectStore(collectName);
+    var index;
+    
+    var d_return = function(dataset,random){
+    	if(random){
+    		var maxNum = (dataset.length-1);  
+    		var minNum = 0;
+    		var n = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+    		return dataset[n];
+    	}else{
+    		return dataset;
+    	}
+    };
+    
+    if(condition.address){
+    	index = store.index("address");
+    	modify_request = store.get(condition.address);
+        return d_return(modify_request,random);
+    }else if(condition.name){
+    	index = store.index("name");
+    	modify_request = store.get(condition.name);
+        return d_return(modify_request,random);
+    }else if(condition.category){
+    	index = store.index("category");
+    	modify_request = store.get(condition.category);
+        return d_return(modify_request,random);
+    }else if(condition.score){
+    	index = store.index("score");
+    	modify_request = store.get(condition.score);
+        return d_return(modify_request,random);
+    }
+    
+/*           request.onsuccess = function(e) {
+            onSuccess(e.target.result);
+    };
+    
+    trans.oncomplete = function(e) {
+            db.close();
+    };
+
+    request.onerror = function(e) {
+            console.log("Error Getting: ", e);
+    };*/
+}
+
+/*function deleteDB(){
+	
 	var deleteRequest = indexedDB.deleteDatabase("eatplay");
     deleteRequest.onsuccess = function (e)
     {
 		alert("deleted");
-		myStorage.indexedDB.create();
+		myStorage.create();
     }
 	deleteRequest.onblocked = function (e)
     {
 		alert("blocked");
     }
 	deleteRequest.onerror = myStorage.indexedDB.onerror;
-};
-
-myStorage.IDBTransactionModes = { "READ_ONLY": "readonly", "READ_WRITE": "readwrite", "VERSION_CHANGE": "versionchange" }; 
+}*/
