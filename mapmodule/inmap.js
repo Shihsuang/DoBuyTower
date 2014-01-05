@@ -240,13 +240,13 @@ function codeAddress(address){
 	/*
 	 * translate address to coordinate
 	 */
-	geocoder.geocode({'address'} : address),function(results,status){
+	geocoder.geocode({'address' : address },function(results,status){
 		if(status==google.maps.GeocoderStatus.OK){
 			return results[0].geometry.location;
+		}else{
+			assert(true,"no data out");
 		}
-	}else{
-		assert(true,"no data out");
-	}
+	});
 }
 
 function assert(condition,message){
@@ -258,5 +258,5 @@ function assert(condition,message){
 
 
 //after all,Initializes the Google Map
-google.maps.event.addDomListener(window, 'load', init);
+/*google.maps.event.addDomListener(window, 'load', init);*/
 

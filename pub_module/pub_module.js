@@ -38,7 +38,7 @@ function parser(){
 }
 
 function assert(condition,message){
-	if(!condition){
+	if(condition){
 		throw message || "assertion failed";
 	}
 }

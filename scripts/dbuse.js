@@ -43,19 +43,6 @@ myStorage.indexedDB.searchRestaurants = function(condition, onSuccess){
 		var db = e.target.result;
 		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_ONLY);
 		var store = trans.objectStore("restaurant");
-		
-		function distance(lat1,lon1,lat2,lon2) {
-		  var R = 6378137; // m (change this constant to get miles)
-		  var dLat = (lat2-lat1) * Math.PI / 180;
-		  var dLon = (lon2-lon1) * Math.PI / 180;
-		  var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-		  Math.cos(lat1 * Math.PI / 180 ) * Math.cos(lat2 * Math.PI / 180 ) *
-		  Math.sin(dLon/2) * Math.sin(dLon/2);
-		  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-		  var d = R * c;
-		  return d;
-		}
-		
 		var result = new Array();
 		var index = 1;
 		
@@ -247,33 +234,6 @@ myStorage.indexedDB.deleteRestaurant = function(id) {
 	request.onerror = myStorage.indexedDB.onerror;
 };
 
-
-
-
-myStorage.indexedDB.getRestaurant = function(id,onSuccess) {
-	var request = indexedDB.open("eatplay");
-	request.onsuccess = function(e) {
-		var db = e.target.result;
-		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_ONLY);
-		var store = trans.objectStore("restaurant");
-
-		var request = store.get(id);
-
-		request.onsuccess = function(e) {
-			onSuccess(e.target.result);
-		};
-		
-		trans.oncomplete = function(e) {
-			db.close();
-		};
-
-		request.onerror = function(e) {
-			console.log("Error Getting: ", e);
-		};
-	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
-
 myStorage.indexedDB.updateRestaurant = function(id, newText) {
 	var request = indexedDB.open("eatplay");
 	request.onsuccess = function(e) {
@@ -307,40 +267,6 @@ myStorage.indexedDB.updateRestaurant = function(id, newText) {
 				//myStorage.indexedDB.getAllTodoItems();
 			};
 		}
-	};
-	request.onerror = myStorage.indexedDB.onerror;
-};
-
-myStorage.indexedDB.getAllTodoItems = function() {
-	var request = indexedDB.open("eatplay");
-	request.onsuccess = function(e) {
-		//var todos = document.getElementById("todoItems");
-		//todos.innerHTML = "";
-
-		var db = e.target.result;		
-		var trans = db.transaction(["restaurant"], myStorage.IDBTransactionModes.READ_WRITE);
-		var store = trans.objectStore("restaurant");
-
-		// Get everything in the store;
-		var keyRange = IDBKeyRange.lowerBound(0);
-		var cursorRequest = store.openCursor(keyRange);
-
-		cursorRequest.onsuccess = function(e) {
-			var result = e.target.result;
-			if(!!result == false){
-				return;
-			}
-		
-			//renderTodo(result.value);
-			result.continue();
-		};
-		
-		trans.oncomplete = function(e) {
-			db.close();
-		};
-
-		//showDetails("");
-		cursorRequest.onerror = myStorage.indexedDB.onerror;
 	};
 	request.onerror = myStorage.indexedDB.onerror;
 };
