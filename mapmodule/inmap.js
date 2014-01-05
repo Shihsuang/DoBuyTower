@@ -249,14 +249,6 @@ function codeAddress(address){
 	}
 }
 
-function assert(condition,message){
-	//my assertion
-	if(condition){
-		throw message || "assertion failed";
-	}
-}
-
-
 //after all,Initializes the Google Map
-google.maps.event.addDomListener(window, 'load', init);
+/*google.maps.event.addDomListener(window, 'load', init);*/
 
