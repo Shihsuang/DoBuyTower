@@ -50,6 +50,8 @@ var locationData;
 var infoWindow;
 var marker = [];
 
+var userCoordinate;
+var userAddress;
 function init(){
 	/*
 	 * init the map and get user address by using Geolocation
@@ -66,6 +68,8 @@ function init(){
 	 if(navigator.geolocation){
 		 navigator.geolocation.getCurrentPosition(function(position){
 			 var userPos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+			 userCoordinate = userpos;
+			 userAddress = encodeAddress(position.coords.latitude,position.coords.longitude);
 
 			 infoWindow = new google.maps.InfoWindow({
 				 map : map,
@@ -178,8 +182,35 @@ function shopInfo(shopsPos){
 }
 
 function codeAddress(address){
+	/*
+	 * translate address to coordinate
+	 */
+	 $.ajax({
+         type: "post",
+         dataType: "json",
+         url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&sensor=false&language=zh-tw",
+         success: function (data){
+             if(data.status == "OK"){
+            	 return data.results[0].geometry.location;
+             }
+         }});
+}
+
+function encodeAddress(lat,lng){
+	
+	$.ajax({
+		type: "post",
+		dataType: "json",
+		url: "http://maps.google.com/maps/api/geocode/json?latlng="+lat+","+lng+"&sensor=true&language=zh-Tw",
+		success:function (data){
+			if(data.status == "OK"){
+				return data.results[0].address_components;
+			}
+		}
+	});
 	
 }
+https://maps.googleapis.com/maps/api/geocode/json?address=
 
 function assert(condition,message){
 	//my assertion
@@ -190,5 +221,5 @@ function assert(condition,message){
 
 
 //after all,Initializes the Google Map
-google.maps.event.addDomListener(window, 'load', init);
+/*google.maps.event.addDomListener(window, 'load', init);*/
 
