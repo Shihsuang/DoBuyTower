@@ -27,6 +27,8 @@
     <script src="jquery/jquery-1.10.2.min.js"></script>
     <script src="jquery/jquery.mobile-1.4.0.min.js"></script>
 	<script src="scripts/aj-address.js"></script>
+	<script src="scripts/pub_module.js"></script>
+	<script src="scripts/dbuse.js"></script>
 	<script src="scripts/location_module.js"></script>
 	<script src="scripts/record_module.js"></script>
 
@@ -58,11 +60,11 @@
 	    <div class="col-head text-center"><label>分類</label></div>
 		<div class="col-body">
 		  <select id="category" data-mini="true" data-theme="c" >
-			<option>請選擇</option>
-			<option>飯</option>
-			<option>麵</option>
-			<option>牛排</option>
-			<option>火鍋</option>
+			<option value="0">請選擇</option>
+			<option value="1">飯</option>
+			<option value="2">麵</option>
+			<option value="3">牛排</option>
+			<option value="4">火鍋</option>
 		  </select>
 		</div>
 	</div>
@@ -83,7 +85,7 @@
 	</div>
     <div class="ui-grid-b">
     	<div class="ui-block-a"></div>
-	    <div class="ui-block-b"><a class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-check">上傳</a></div>
+	    <div class="ui-block-b"><a class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-check" onclick="upload()">上傳</a></div>
 		<!--<div class="ui-block-b"><a onclick="window.location='eat.html'" class="ui-btn ui-corner-all ui-mini ui-btn-icon-left ui-icon-delete">取消</a></div>-->
 	</div>
   </div>

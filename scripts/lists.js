@@ -1,5 +1,5 @@
 /* show list of shops or comments */
-function data(rec) {
+function _data(rec) {
 	//alert(rec);
 	// get the num of shops/comments first
     var num = rec.length;
@@ -9,6 +9,7 @@ function data(rec) {
 		arguments[i] = rec[i];
 		//alert(arguments[i]);
 	}
+
 	var content = document.getElementById("lists");
 	//alert(content);
 	// use innerHTML to add a seperate line
@@ -18,8 +19,35 @@ function data(rec) {
 	// generate the lists by innerHTML with for loop
 	for(var i = 0 ; i < num; i++)
 	{
-		//alert(i);
+		alert(i+" "+arguments[i]);
 		content.innerHTML += "<div>"+arguments[i]+"</div>";
 		content.innerHTML += "<hr/>";
+		
 	}
-};
+}
+function resList(){
+    var ddb = new myStorage();
+	ddb.conn();
+	var tmpdata = {
+
+	   		"name": '野味',
+			"position": {"latitude":123.3,"longitude":10.33},
+			"category": 'aa',
+			"address": 'aa',
+			"city": 'aa',
+			"county": 'aa' 
+	};
+//alert("1");
+	//temppp=JSON.stringify(tmpdata);
+	var res = ddb.findData("restaurant", tmpdata, false, zzzshowAll);
+    ddb.close();
+}
+	function zzzshowAll(indata){
+		//alert("zzz");
+		var azz = new Array();
+		for(var i=0;i<indata.length;i++){
+	        azz[i]=indata[i].name;
+	    }
+	    //alert(indata[0].name);
+		_data(azz);
+    }

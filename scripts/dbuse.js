@@ -1,25 +1,26 @@
 /**
  * 
  */
-
 function myStorage(){
 
 /*
 * define myStorage prototype method list
 */
 
-this.prototype.conn = conn;
-this.prototype.closeDB = closeDB;
-this.prototype.createObjectStore = createObjectStore;
-this.prototype.delCollect = delCollect;
-this.prototype.insertData = insertData;
-this.prototype.updateRes = updateRes;
-this.prototype.delData = delData;
 
-this.prototype.findData = findData;
 
 //this.prototype.deleteDB = deleteDB;
 }
+
+myStorage.prototype.conn = conn;
+myStorage.prototype.closeDB = closeDB;
+myStorage.prototype.createObjectStore = createObjectStore;
+myStorage.prototype.delCollect = delCollect;
+myStorage.prototype.insertData = insertData;
+myStorage.prototype.updateRes = updateRes;
+myStorage.prototype.delData = delData;
+
+myStorage.prototype.findData = findData;
 
 var request;
 var db;
@@ -104,7 +105,7 @@ function createObjectStore(db){
 		var storeReq = db.deleteObjectStore("restaurant");
 	}
 	var restStore = db.createObjectStore("restaurant", { keyPath: "id", autoIncrement : true });
-	restStore.createIndex("condition", ["position.latitude", "position.longitude", "category"]);
+	restStore.createIndex("address", "address");
 	/*if (db.objectStoreNames.contains("category")) {
 		var storeReq = db.deleteObjectStore("category");
 	}
@@ -130,28 +131,29 @@ function delCollect(collectName){
 //insert data into specify collection
 function insertData(collectName,data){
 	
-	assert(db=null,"connect first");
+	conn();
 	
-	var trans = db.transaction([collectName],IDBTransactionModes.READ_WRITE);
+	var trans = db.transaction([collectName],IDBTransaction.READ_WRITE);
 	var store = trans.objectStore(collectName);
-	var resData = {
-			"name": data.name,
-			"position": {"latitude":data.position.latitude,"longitude":data.position.longitude},
-			"category": data.category,
-			"phone": data.phone,
-			"address": data.address,
-			"city": data.city,
-	};
-	var comData = {
-			"restaurantId":data.restaurantId,
-			"date":data.date, 
-			"score":data.score, 
-			"comment":data.comment, 
-			"pictures":data.pictures
-	};
 	if(collectName=="restaurant"){
+		var resData = {
+				"name": data.name,
+				"position": {"latitude":data.position.latitude,"longitude":data.position.longitude},
+				"category": data.category,
+				//"phone": data.phone,
+				"address": data.address,
+				"city": data.city,
+				"county": data.county
+		};
 		modify_request = store.put(resData);
 	}else if(collectName=="comments"){
+		var comData = {
+				"restaurantId":data.restaurantId,
+				"date":data.date, 
+				"score":data.score, 
+				"comment":data.comment, 
+				"pictures":data.pictures
+		};
 		modify_request = store.put(comData);
 	}
 	modify_request.oncomplete = function(e){
@@ -165,7 +167,7 @@ function insertData(collectName,data){
 //
 function updateRes(id,newText){
 	
-	var trans = db.transaction(["restaurant"], IDBTransactionModes.READ_WRITE);
+	var trans = db.transaction(["restaurant"], IDBTransaction.READ_WRITE);
 	var store = trans.objectStore("restaurant");
 	var openCursorReq = store.openCursor(IDBKeyRange.only(id));
 	
@@ -199,7 +201,7 @@ function updateRes(id,newText){
 
 function delData(collectName,id){
 
-	var trans = db.transaction([collectName], IDBTransactionModes.READ_WRITE);
+	var trans = db.transaction([collectName], IDBTransaction.READ_WRITE);
 	var store = trans.objectStore(collectName);
 	modify_request = store.delete(id);
 
@@ -215,12 +217,15 @@ function delData(collectName,id){
 
 //not finished yet : basci condition pass in and return json array
 //condition is a type : address or name , that's not a really address : 台灣省....etc
-function findData(collectName,condition,random){
-	
-    var trans = db.transaction([collectName], IDBTransactionModes.READ_ONLY);
+function findData(collectName,condition,random, onComplete){
+	alert("findData");
+	//alert("1"+collectName);
+	//conn();
+
+    var trans = db.transaction([collectName], IDBTransaction.READ_ONLY);
     var store = trans.objectStore(collectName);
     var index;
-    
+    //alert(JSON.stringify(condition));
     var d_return = function(dataset,random){
     	if(random){
     		var maxNum = (dataset.length-1);  
@@ -230,25 +235,44 @@ function findData(collectName,condition,random){
     	}else{
     		return dataset;
     	}
+    };/*
+    for(elements in condition){
+    	var temp = new Array();
+    	switch element:
+    		case "address":
+    		case "distance":
+    		case "name":
+    		case "score":
+    		case "category":
+    }*/
+    var r_result = new Array();
+    var curreq = store.openCursor();
+    curreq.onsuccess = function(e) {
+    	var cursor = e.target.result;
+    	if (cursor) {
+    		//var getreq = store.get(cursor.key);
+
+    		//getreq.onsuccess = function(e) {
+				//console.log('key:', cursor.key, 'value:', getreq.result);
+				//var value = getreq.result;
+				//if(condition.address==cursor.value.address){
+					r_result.push(cursor.value);
+				//alert(cursor.value);
+				/*if(condition.name==cursor.value.name){
+					r_result.push(cursor.value);
+				}*/
+				cursor.continue();
+    		//}
+    	}else{
+    		//alert(collectName);
+    		onComplete(r_result);
+    	}
     };
+    //alert(r_result[0]);
+    //return r_result[0];
+
+       
     
-    if(condition.address){
-    	index = store.index("address");
-    	modify_request = store.get(condition.address);
-        return d_return(modify_request,random);
-    }else if(condition.name){
-    	index = store.index("name");
-    	modify_request = store.get(condition.name);
-        return d_return(modify_request,random);
-    }else if(condition.category){
-    	index = store.index("category");
-    	modify_request = store.get(condition.category);
-        return d_return(modify_request,random);
-    }else if(condition.score){
-    	index = store.index("score");
-    	modify_request = store.get(condition.score);
-        return d_return(modify_request,random);
-    }
     
 /*           request.onsuccess = function(e) {
             onSuccess(e.target.result);

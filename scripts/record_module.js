@@ -66,6 +66,8 @@ function parsePosition(latitude, longitude){
     //alert(latitude + ", " + longitude );
 }
 
+var selectedImg;
+
 //初始化照片選擇頁面
 function initGallery(){
 
@@ -109,9 +111,76 @@ function initGallery(){
 	});
 }
 
-var selectedImg;
+function upload(){
+
+   var name = $("#name").val();
+   var addr = $("#location").val();
+   var cat = $("#category").val();
+   var city = $("#city :selected").text();
+   var county = $("#county :selected").text();
+
+   //alert(name);
+   //alert(date);
+   //alert(addr);
+   //alert(cat);
+   //alert(score);
+   //alert(comment);
+   //alert(city);
+   //alert(county);
+
+   //LocationModule.getPosition(function(latitude, longitude){
+   	   var ddb = new myStorage();
+	   ddb.conn();
+
+	   var data = {
+
+	   		"name": name,
+			"position": {"latitude":123.3,"longitude":-10.33},
+			"category": cat,
+			"address": addr,
+			"city": city,
+			"county": county 
+	   };
+
+	   ddb.insertData("restaurant", data);
+	   //alert("pass");
+	   var res = ddb.findData("restaurant", data, false, createComment);
+	   //alert(res);
+
+	   ddb.close();
+
+   //});
 
 
+
+
+   
+}
+
+function createComment(indata){
+	alert("infunc"+indata[0].id);
+   	   var ddb = new myStorage();
+	   ddb.conn();
+   var date = $("#date").val();
+   var score = $("#score").val();
+   var comment = $("#comment").val();
+      var com={
+			"restaurantId":indata[0].id,
+			"date":date, 
+			"score":score, 
+			"comment":comment, 
+			"pictures":""
+		};
+	alert("comadd");
+    ddb.insertData("comments",com);
+	alert("comout");
+    ddb.findData("comments",com,false,showcom);
+	   ddb.close();
+
+}
+function showcom(data){
+    alert(data[0].comment);
+}
 
 
 
