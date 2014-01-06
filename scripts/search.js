@@ -60,13 +60,77 @@ function Getinfo()
 {
 	alert("hello");
 
-
-
-
-
 }
   
 
 
+function resList(){
+    var ddb = new myStorage();
+	ddb.conn();
+	var tmpdata = {
+
+	   		"name": '野味',
+			"position": {"latitude":123.3,"longitude":10.33},
+			"category": 'aa',
+			"address": 'aa',
+			"city": 'aa',
+			"county": 'aa' 
+	};
+//alert("1");
+	//temppp=JSON.stringify(tmpdata);
+	var res = ddb.findData("restaurant", tmpdata, false, _search);
+    ddb.close();
+}
+
+function _search(dataset){
+	var temp = new Array();
+	
+ /*if (condition.distance!=null) {
+        temp = new Array();
+        for(var i=0;i<=r_result.length;i++){
+            if(condition.distance>=calDistance(userCoordinatelat,userCoordinatelng,r_result[i].latitude,r_result[i].longitude)){
+                temp.push(r_result[i]);
+            }
+        }
+    }
+    if(condition.address!=null) {
+        if(temp!=null)
+        for(var i=0;i<=temp.length;i++){
+            for(var element in temp[i]){
+                if(element=="address"){
+                    if(temp[i].address!=condition.address;){
+                        delete temp[i];
+                    }
+                }
+            }
+        }else{
+            temp = new Array();
+            for(var i=0;i<=r_result.length;i++){
+                if(r_result[i].address==condition.address){
+                    temp.push(r_result[i]);
+                }
+            }
+        }
+    }else if(condition.score!=null){
+        if(temp!=null){
+            for(var i=0;i<=temp.length;i++){
+                for(var element in temp){
+                    if(element == "score"){
+                        if(temp[i].score!=condition.score){
+                            delete temp[i];
+                        }
+                    }
+                }
+            }
+        }else{
+            temp = new Array();
+            for(var i=0;i<=r_result.length;i++){
+                if(r_result[i].score==condition.score){
+                    temp.push(r_result[i]);
+                }
+            }
+        }
+    }
+}*/
 
 

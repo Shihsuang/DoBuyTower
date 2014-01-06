@@ -1,14 +1,17 @@
+
+var category = ["", "吃", "玩"];
+
 /* show list of shops or comments */
 function _data(rec) {
 	//alert(rec);
 	// get the num of shops/comments first
     var num = rec.length;
 	// get the arguments
-	var arguments = new Array(num-1);
+	/*var arguments = new Array(num-1);
 	for(var i = 0 ; i < num ; i++){
 		arguments[i] = rec[i];
 		//alert(arguments[i]);
-	}
+	}*/
 
 	var content = document.getElementById("lists");
 	//alert(content);
@@ -19,8 +22,9 @@ function _data(rec) {
 	// generate the lists by innerHTML with for loop
 	for(var i = 0 ; i < num; i++)
 	{
-		alert(i+" "+arguments[i]);
-		content.innerHTML += "<div>"+arguments[i]+"</div>";
+		//alert(i+" "+rec[i].name);
+		content.innerHTML += '<div class="res">'+ '<div>' + rec[i].name + '</div>'+ '<div>' + rec[i].address + '</div>'
+		                   + '<div>' + category[rec[i].category] + '</div>'+ '<div>' + "(" + rec[i].position.latitude + "," + rec[i].position.longitude + ")" + '</div>' + "</div>";
 		content.innerHTML += "<hr/>";
 		
 	}
@@ -46,7 +50,7 @@ function resList(){
 		//alert("zzz");
 		var azz = new Array();
 		for(var i=0;i<indata.length;i++){
-	        azz[i]=indata[i].name;
+	        azz[i]=indata[i];
 	    }
 	    //alert(indata[0].name);
 		_data(azz);

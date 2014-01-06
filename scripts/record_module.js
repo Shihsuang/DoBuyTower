@@ -36,7 +36,8 @@ function starsend(x)
 //取得目前經緯度坐標
 function getLocation(){
 
-    LocationModule.getPosition(parsePosition, showAddressSelector);
+    //LocationModule.getPosition(parsePosition, showAddressSelector);
+    showAddressSelector();
 }
 
 //show出選擇地址的dialog
@@ -128,14 +129,14 @@ function upload(){
    //alert(city);
    //alert(county);
 
-   //LocationModule.getPosition(function(latitude, longitude){
+   LocationModule.getPosition(function(latitude, longitude){
    	   var ddb = new myStorage();
 	   ddb.conn();
 
 	   var data = {
 
 	   		"name": name,
-			"position": {"latitude":123.3,"longitude":-10.33},
+			"position": {"latitude":latitude,"longitude":longitude},
 			"category": cat,
 			"address": addr,
 			"city": city,
@@ -149,7 +150,7 @@ function upload(){
 
 	   ddb.close();
 
-   //});
+   });
 
 
 
@@ -158,9 +159,9 @@ function upload(){
 }
 
 function createComment(indata){
-	alert("infunc"+indata[0].id);
-   	   var ddb = new myStorage();
-	   ddb.conn();
+//alert("infunc"+indata[0].id);
+   var ddb = new myStorage();
+   ddb.conn();
    var date = $("#date").val();
    var score = $("#score").val();
    var comment = $("#comment").val();
@@ -171,15 +172,20 @@ function createComment(indata){
 			"comment":comment, 
 			"pictures":""
 		};
-	alert("comadd");
+	//alert("comadd");
     ddb.insertData("comments",com);
-	alert("comout");
-    ddb.findData("comments",com,false,showcom);
-	   ddb.close();
+    alert("上傳完成");
+    location = "eat.html";
+	//alert("comout");
+    //ddb.findData("comments",com,false,showcom);
+	ddb.close();
+
+
 
 }
 function showcom(data){
-    alert(data[0].comment);
+    //alert(data[0].comment);
+    
 }
 
 

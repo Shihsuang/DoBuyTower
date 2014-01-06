@@ -50,6 +50,8 @@ var locationData;
 var infoWindow;
 var marker = [];
 
+var res;
+
 var userCoordinate;
 var userAddress;
 function init(){
@@ -57,7 +59,6 @@ function init(){
 	 * init the map and get user address by using Geolocation
 	 * and set user address to center,then show out
 	 */
-	 
 	 var mapOptions = {
 			 zoom : 12,
 		     mapTypeId : google.maps.MapTypeId.ROADMAP
@@ -68,7 +69,7 @@ function init(){
 	 if(navigator.geolocation){
 		 navigator.geolocation.getCurrentPosition(function(position){
 			 var userPos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-			 userCoordinate = userpos;
+			 userCoordinate = userPos;
 			 userAddress = encodeAddress(position.coords.latitude,position.coords.longitude);
 
 			 infoWindow = new google.maps.InfoWindow({
@@ -99,9 +100,8 @@ function init(){
 		// Browser doesn't support Geolocation
 		 handleNoGeolocation(false);
 	 }
-	 if(arguments!=null){
-		 shopMarker(arguments);
-	 }
+
+	 shopMarker(res);
 }
 
 function handleNoGeolocation(errorFlag) {
@@ -138,6 +138,7 @@ function shopMarker(){
 			 var shopName = arguments[i].name;
 			 var shopScore = arguments[i].comments[0].score;
 			 var shopAddress = arguments[i].address;
+			 alert(rguments[i].position.latitude);
 			 marker=new google.maps.Marker({
 				 position : new google.maps.LatLng(arguments[i].position.latitude,arguments[i].position.longitude),
 				 map : map,
@@ -210,7 +211,7 @@ function encodeAddress(lat,lng){
 	});
 	
 }
-https://maps.googleapis.com/maps/api/geocode/json?address=
+
 
 function assert(condition,message){
 	//my assertion
@@ -218,8 +219,60 @@ function assert(condition,message){
 		throw message || "assertion failed";
 	}
 }
+/* show list of shops or comments */
+/*function resList(){
+    var ddb = new myStorage();
+	ddb.conn();
+	var tmpdata = {
+
+	   		"name": '野味',
+			"position": {"latitude":123.3,"longitude":10.33},
+			"category": 'aa',
+			"address": 'aa',
+			"city": 'aa',
+			"county": 'aa' 
+	};
+//alert("1");
+	//temppp=JSON.stringify(tmpdata);
+	var res = ddb.findData("restaurant", tmpdata, false, zzzshowAll);
+    ddb.close();
+}
+	function zzzshowAll(indata){
+		
+		for(var i=0;i<indata.length;i++){
+	        res_data[i]=indata[i];
+	    }
+    }
+*/
 
 
+function resList(){
+    var ddb = new myStorage();
+	ddb.conn();
+	var tmpdata = {
+
+	   		"name": '野味',
+			"position": {"latitude":123.3,"longitude":10.33},
+			"category": 'aa',
+			"address": 'aa',
+			"city": 'aa',
+			"county": 'aa' 
+	};
+//alert("1");
+	//temppp=JSON.stringify(tmpdata);
+	ddb.findData("restaurant", tmpdata, false, _random);
+    ddb.close();
+}
+
+
+function _random(dataset){
+	var maxNum = (dataset.length-1);  
+	var minNum = 0;
+	var n = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+	res = dataset[n];
+}
 //after all,Initializes the Google Map
-/*google.maps.event.addDomListener(window, 'load', init);*/
+google.maps.event.addDomListener(window, 'load', init);
+
+
 

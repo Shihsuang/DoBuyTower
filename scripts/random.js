@@ -61,5 +61,28 @@ function starsend(x)
 }
   
 
+function resList(){
+    var ddb = new myStorage();
+	ddb.conn();
+	var tmpdata = {
+
+	   		"name": '野味',
+			"position": {"latitude":123.3,"longitude":10.33},
+			"category": 'aa',
+			"address": 'aa',
+			"city": 'aa',
+			"county": 'aa' 
+	};
+//alert("1");
+	//temppp=JSON.stringify(tmpdata);
+	var res = ddb.findData("restaurant", tmpdata, false, _random);
+    ddb.close();
+}
 
 
+function _random(dataset){
+	var maxNum = (dataset.length-1);  
+	var minNum = 0;
+	var n = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
+	alert("結果 : "+dataset[n].name+"\n"+"地址 : "+dataset[n].address);
+}

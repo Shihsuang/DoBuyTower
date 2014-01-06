@@ -1,5 +1,9 @@
 #lists{
-	
+	height:380px;
 	color:white;
 	margin-top: 50px;
+	margin-bottom:50px;
+	overflow-x:hidden ;
+	overflow-y:scroll;
+	overflow:-moz-scrollbars-horizontal !important;
 }

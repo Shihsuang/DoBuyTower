@@ -60,7 +60,10 @@ var windowonload = function (){
 				
 			}
 			if(Frame == frame1 && Frame.offsetLeft == min)
-				$.mobile.changePage( "play.html", { transition: "slide", changeHash: true , reverse: "true"});//window.location = "play.html";
+				$.mobile.pageContainer.pagecontainer("change", "eat.html", { transition: "slide", changeHash: true, reverse:true})
+				.on( "pagecontainershow", function( event, ui ) {
+					window.location = "eat.html";
+				});
 			return false;
 		};
 		document.onmouseup = function (){
@@ -77,7 +80,10 @@ var windowonload = function (){
 				});
 				},Frame) : startMove(min,0,Frame) : 
 				Frame.offsetLeft < min+25?startMove(min, function (){
-					$.mobile.changePage( "play.html", { transition: "slide", changeHash: true ,reverse: "true"});
+					$.mobile.pageContainer.pagecontainer("change", "eat.html", { transition: "slide", changeHash: true, reverse:true})
+				        .on( "pagecontainershow", function( event, ui ) {
+					    window.location = "eat.html";
+				    });
 				},Frame) : startMove(max,0,Frame)
 		};
 		/*Frame.setCapture && Frame.setCapture();

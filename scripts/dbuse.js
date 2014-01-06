@@ -131,9 +131,10 @@ function delCollect(collectName){
 //insert data into specify collection
 function insertData(collectName,data){
 	
-	conn();
-	
-	var trans = db.transaction([collectName],IDBTransaction.READ_WRITE);
+	//conn();
+	setTimeout(function(){
+
+		var trans = db.transaction([collectName],IDBTransaction.READ_WRITE);
 	var store = trans.objectStore(collectName);
 	if(collectName=="restaurant"){
 		var resData = {
@@ -162,6 +163,9 @@ function insertData(collectName,data){
 	modify_request.onerror = function(e) {
 		console.log("Error Adding: ", e);
 	};
+
+	},1000);
+	
 }
 
 //
@@ -218,34 +222,19 @@ function delData(collectName,id){
 //not finished yet : basci condition pass in and return json array
 //condition is a type : address or name , that's not a really address : 台灣省....etc
 function findData(collectName,condition,random, onComplete){
-	alert("findData");
+	//alert("findData");
 	//alert("1"+collectName);
 	//conn();
 
-    var trans = db.transaction([collectName], IDBTransaction.READ_ONLY);
+    setTimeout(function(){
+
+	var trans = db.transaction([collectName], IDBTransaction.READ_ONLY);
     var store = trans.objectStore(collectName);
+    var r_result = new Array();
+    var temp;
     var index;
     //alert(JSON.stringify(condition));
-    var d_return = function(dataset,random){
-    	if(random){
-    		var maxNum = (dataset.length-1);  
-    		var minNum = 0;
-    		var n = Math.floor(Math.random() * (maxNum - minNum + 1)) + minNum;
-    		return dataset[n];
-    	}else{
-    		return dataset;
-    	}
-    };/*
-    for(elements in condition){
-    	var temp = new Array();
-    	switch element:
-    		case "address":
-    		case "distance":
-    		case "name":
-    		case "score":
-    		case "category":
-    }*/
-    var r_result = new Array();
+   
     var curreq = store.openCursor();
     curreq.onsuccess = function(e) {
     	var cursor = e.target.result;
@@ -266,8 +255,13 @@ function findData(collectName,condition,random, onComplete){
     	}else{
     		//alert(collectName);
     		onComplete(r_result);
+    		
     	}
     };
+
+    }, 1000);
+
+    
     //alert(r_result[0]);
     //return r_result[0];
 
